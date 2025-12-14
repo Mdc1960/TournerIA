@@ -119,4 +119,6 @@ int Resolution(Instance * instance)
 
 void test(Instance* instance){
     SolutionInitiale initial = SolutionInitiale(instance);
+    initial.load_sequence();
+    initial.display_sequence_poi();
 }
