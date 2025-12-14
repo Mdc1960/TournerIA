@@ -25,6 +25,8 @@ public:
     ~SolutionInitiale(){}
     void display_sequence_poi();
     void load_sequence();
+    void fill_objective_function_value();
+    float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
 
 private:
     
@@ -41,6 +43,7 @@ private:
     bool hotel_already_in_intermedaite_hotel(int index);
     int find_best_intermediate_hotel_from_poi(int index_poi);
     bool belongs_to_prohibited_poi(int index_poi);
+    
     
     
     

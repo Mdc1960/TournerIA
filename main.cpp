@@ -121,4 +121,6 @@ void test(Instance* instance){
     SolutionInitiale initial = SolutionInitiale(instance);
     initial.load_sequence();
     initial.display_sequence_poi();
+    initial.fill_objective_function_value();
+    cout << "Objective function value : " << initial.get_objective_function_value() << endl;
 }

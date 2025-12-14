@@ -284,6 +284,19 @@ bool SolutionInitiale::belongs_to_prohibited_poi(int index_poi)
     return find(prohibited_poi.begin(),prohibited_poi.end(),index_poi) != prohibited_poi.end();
 }
 
+void SolutionInitiale::fill_objective_function_value()
+{
+    int total_score = 0;
+
+    for (int i = 0; i < sequence_Id_Poi_Par_Jour.size(); ++i){
+        for (int j = 0; j < sequence_Id_Poi_Par_Jour[i].size(); ++j){
+            total_score += this->instance->get_POI_Score(sequence_Id_Poi_Par_Jour[i][j]);
+        }
+    }
+
+    this->i_valeur_fonction_objectif = total_score;
+}
+
 void SolutionInitiale::display_sequence_poi()
 {
     cout << "Solution : ";
