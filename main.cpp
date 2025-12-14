@@ -139,9 +139,12 @@ int ResolutionBis(Instance * instance)
     cout << "Test Start : " << endl;
 
     SolutionInitiale initial = SolutionInitiale(instance);
-    initial.load_sequence();
-    initial.display_sequence_poi();
-    initial.fill_objective_function_value();
+    cerr << "Size Intermediate Hotel : " << initial.get_intermediate_hotel().size() << endl;
+    initial.build_solution();
+    cerr << "Size Intermediate Hotel : " << initial.get_intermediate_hotel().size() << endl;
+    //initial.load_sequence();
+    //initial.display_sequence_poi();
+    //initial.fill_objective_function_value();
 
     int i_val_Retour_Fct_obj=0;
     Solution * uneSolution = new Solution();
@@ -149,19 +152,27 @@ int ResolutionBis(Instance * instance)
 
     //INITIALISATION D'UN SOLUTION EN DUR POUR L'INSTANCE 1
     v_i_tmp.clear();
+    
     for (int i = 0; i < initial.get_intermediate_hotel().size(); ++i){
+        cout << "Intermediate Hotel Test : " << initial.get_intermediate_hotel()[i] << endl;
         uneSolution->v_Id_Hotel_Intermedaire.push_back(initial.get_intermediate_hotel()[i]);
     }
     for (int i = 0; i < initial.get_date_depart().size(); ++i){
+        cout << "Date Depart Test : " << initial.get_date_depart()[i] << endl;
         uneSolution->v_Date_Depart.push_back(initial.get_date_depart()[i]);
     }
+    cout << "Sequence POI Test : " << endl;
     for (int i = 0; i < initial.get_sequence_poi_par_jour().size(); ++i){
+        cout << i << " % ";
         v_i_tmp = vector<int>();
         for (int j = 0; j < initial.get_sequence_poi_par_jour()[i].size(); ++j){
             v_i_tmp.push_back(initial.get_sequence_poi_par_jour()[i][j]);
+            cout << initial.get_sequence_poi_par_jour()[i][j] << " --> ";
         }
         uneSolution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
+        cout << " % ";
     }
+    cout << endl;
     uneSolution->i_valeur_fonction_objectif = (int)initial.get_objective_function_value();
 
     
@@ -172,10 +183,15 @@ int ResolutionBis(Instance * instance)
 
     cout << "Test End" << endl;
 
+    initial.show_poi_visited();
+
+    cout << "Distance Hotel to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,HOTEL) << endl;
+    cout << "Distance POI to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,POI) << endl;
+
     return i_val_Retour_Fct_obj;
 }
 
-void test(Instance* instance){
+/*void test(Instance* instance){
     SolutionInitiale initial = SolutionInitiale(instance);
     initial.load_sequence();
     initial.display_sequence_poi();
@@ -183,4 +199,4 @@ void test(Instance* instance){
     cout << "Objective function value : " << initial.get_objective_function_value() << endl;
 
     
-}
+}*/
