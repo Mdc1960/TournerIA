@@ -57,13 +57,6 @@ int main(int argc, const char * argv[])
                     chrono_end = chrono::system_clock::now();
                     
 
-                    cout << "Test" << endl;
-                    //test(instance);
-                    cout << "Test f" << endl;
-
-                    /*cout << "Sh" << endl;
-                    instance->show();
-                    cout << "Sh f" << endl;*/
 
                     elapsed=chrono_end-chrono_start;
                     fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
@@ -142,10 +135,7 @@ int ResolutionBis(Instance * instance)
     cerr << "Size Intermediate Hotel : " << initial.get_intermediate_hotel().size() << endl;
     initial.build_solution();
     cerr << "Size Intermediate Hotel : " << initial.get_intermediate_hotel().size() << endl;
-    //initial.load_sequence();
-    //initial.display_sequence_poi();
-    //initial.fill_objective_function_value();
-
+    
     int i_val_Retour_Fct_obj=0;
     Solution * uneSolution = new Solution();
     vector<int> v_i_tmp ;
@@ -183,20 +173,10 @@ int ResolutionBis(Instance * instance)
 
     cout << "Test End" << endl;
 
-    initial.show_poi_visited();
+    
 
     cout << "Distance Hotel to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,HOTEL) << endl;
     cout << "Distance POI to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,POI) << endl;
 
     return i_val_Retour_Fct_obj;
 }
-
-/*void test(Instance* instance){
-    SolutionInitiale initial = SolutionInitiale(instance);
-    initial.load_sequence();
-    initial.display_sequence_poi();
-    initial.fill_objective_function_value();
-    cout << "Objective function value : " << initial.get_objective_function_value() << endl;
-
-    
-}*/

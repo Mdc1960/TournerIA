@@ -31,7 +31,7 @@ bool SolutionInitiale::poi_is_accessible_from_current_position(int poi_index, fl
            arrival_time <= this->instance->get_POI_Heure_fermeture(poi_index);
 }
 
-// Curent distance is the total distance traveled per day moins the distance spent
+
 int SolutionInitiale::best_poi_to_visit_from_current_position(int current_position, float current_distance, bool is_hotel)
 {
     int best_poi_index = -1;
@@ -114,10 +114,7 @@ void SolutionInitiale::build_solution()
             depart = find_best_intermediate_hotel_from_poi(depart, total_distance, max_distance_jour);
             cout << "Next Hotel Depart = " << depart << endl;
             add_to_intermadiate_hotel(depart);
-            if (depart != this->instance->get_Id_Hotel_depart()){
-                v_Date_Depart.push_back(0.0f);
-            }
-            
+            v_Date_Depart.push_back(0.0f);
             is_hotel = true;
             isMovable = true;
         }
@@ -127,119 +124,6 @@ void SolutionInitiale::build_solution()
 
     }
 
-}
-
-vector<int> SolutionInitiale::stock_and_get(int id_jour)
-{
-
-    
-    int length_poi = this->instance->get_Nombre_POI();
-
-    vector<int> sequence_jour = vector<int>();
-
-    float distance_jour = this->instance->get_POI_Duree_Max_Voyage(id_jour);
-
-    float total_distance = 0.0f;
-
-    bool isMovable = true;
-
-    v_Date_Depart.push_back((float)total_distance);
-
-    
-
-    cout << "Depart : " << hotel_depart << " Durée Jour : " << distance_jour << endl;
-
-
-    vector<float> list_distance = distance_Hotel_and_all_Poi(hotel_depart, length_poi, id_jour);
-
-    for (int i = 0; i < list_distance.size(); ++i){
-        cout << "Hotel - POI " << list_distance[i] << " - " << i << endl;
-    }
-
-    int max_index = max_Index(list_distance);
-
-    cout << "Max POI Index : " << max_index << endl;
-
-    sequence_jour.push_back(max_index);
-
-    add_to_poi_visited(max_index);
-
-    total_distance += this->instance->get_distance_Hotel_POI(hotel_depart,max_index);
-
-    cout << "Current distance = " <<total_distance << endl;
-
-    cout << "POI visited size = " << poi_visited.size() << endl;
-
-    for (int i = 0; i < sequence_jour.size();++i){
-        cout << "Sq : " << sequence_jour[i] << " - " << i << endl;
-    }
-    cout << endl;
-
-
-    int current_poi_index = max_index;
-
-    int nb_iteration = 0;
-
-    while (isMovable){
-        int poi_best_index = get_Best_Index_From_Poi_Poi_Distance(current_poi_index,total_distance,id_jour);
-        nb_iteration++;
-        if ((nb_iteration)>6 ? true : false){
-            isMovable = false;
-        }
-        //cout << "Visit : " << " Dist = " << total_distance + this->instance->get_distance_POI_POI(current_poi_index,poi_best_index) << endl;
-        
-        if (!poi_already_visited(poi_best_index)){
-            sequence_jour.push_back(poi_best_index);
-            add_to_poi_visited(poi_best_index);
-            total_distance += this->instance->get_distance_POI_POI(current_poi_index,poi_best_index);
-            current_poi_index = poi_best_index;
-        }
-        
-    }
-
-    cout << "MiniFinal Sq : ";
-    for (int i = 0; i < sequence_jour.size();++i){
-        cout << sequence_jour[i] << " --> ";
-    }
-    cout << endl;
-
-    cout << "Current Poi = " << current_poi_index << endl;
-    cout << "Final $ Total distance = " << total_distance << " - " << distance_jour << endl;
-
-    hotel_depart = find_best_intermediate_hotel_from_poi(current_poi_index,total_distance, distance_jour);
-
-    cout << "Next Hotel Depart = " << hotel_depart << endl;
-
-    add_to_intermadiate_hotel(hotel_depart);
-
-    
-    
-   
-    
-
-    return sequence_jour;
-}
-
-vector<float> SolutionInitiale::distance_Hotel_and_all_Poi(int index_hotel, int length_poi, int id_jour)
-{
-
-    vector<float> vect_distance = vector<float>();
-
-    
-    if (index_hotel <= this->instance->get_Nombre_Hotel() && length_poi <= this->instance->get_Nombre_POI()){
-        for(int index = 0; index < length_poi; ++index){
-            float hp = this->instance->get_distance_Hotel_POI(index_hotel, index);
-            
-            if (hp < this->instance->get_POI_Duree_Max_Voyage(id_jour)){
-                if ((hp >= this->instance->get_POI_Heure_ouverture(index) && hp < this->instance->get_POI_Heure_fermeture(index)) || 
-                (hp < this->instance->get_POI_Heure_ouverture(index))){
-                    vect_distance.push_back(this->instance->get_POI_Score(index)/hp);  
-                }
-            }
-            //vect_distance.push_back(this->instance->get_POI_Score(index)/hp);    
-        }
-    }
-    return vect_distance;
 }
 
 
@@ -263,29 +147,6 @@ int SolutionInitiale::max_Index(vector<float> distance)
     
 
     return max_index;
-}
-
-int SolutionInitiale::get_Best_Index_From_Poi_Poi_Distance(int index_curent_Poi, float distance, int id_jour)
-{
-    vector<float> list_distance = vector<float>();
-
-    int index = 0;
-    while (index < this->instance->get_Nombre_POI()){
-        if(index != index_curent_Poi){
-            float pp = this->instance->get_distance_POI_POI(index_curent_Poi,index);
-            if ( (distance + pp) < this->instance->get_POI_Duree_Max_Voyage(id_jour) ){
-                if ( (pp >= this->instance->get_POI_Heure_ouverture(index) && pp < this->instance->get_POI_Heure_fermeture(index)) || 
-                (pp < this->instance->get_POI_Heure_ouverture(index)) ){
-                    list_distance.push_back(this->instance->get_POI_Score(index)/pp);  
-                }
-            }
-            
-        }
-        index++;
-    }
-    
-
-    return max_Index(list_distance);
 }
 
 int SolutionInitiale::find_Min_Index(vector<float> distance)
@@ -352,32 +213,7 @@ int SolutionInitiale::find_best_intermediate_hotel_from_poi(int index_poi, float
     return b;
 }
 
-bool SolutionInitiale::belongs_to_prohibited_poi(int index_poi)
-{ 
-    return find(prohibited_poi.begin(),prohibited_poi.end(),index_poi) != prohibited_poi.end();
-}
 
-void SolutionInitiale::show_poi_visited()
-{
-    cout << "POI Visited : ";
-        for (int i = 0; i < poi_visited.size(); ++i){
-            cout << poi_visited[i] << " - ";
-        }
-    cout << endl;   
-}
-
-void SolutionInitiale::fill_objective_function_value()
-{
-    int total_score = 0;
-
-    for (int i = 0; i < sequence_Id_Poi_Par_Jour.size(); ++i){
-        for (int j = 0; j < sequence_Id_Poi_Par_Jour[i].size(); ++j){
-            total_score += this->instance->get_POI_Score(sequence_Id_Poi_Par_Jour[i][j]);
-        }
-    }
-
-    this->i_valeur_fonction_objectif = total_score;
-}
 
 void SolutionInitiale::display_sequence_poi()
 {
@@ -392,9 +228,4 @@ void SolutionInitiale::display_sequence_poi()
     cout << endl;
 }
 
-void SolutionInitiale::load_sequence()
-{
-    for (int i = 0; i < this->instance->get_Nombre_Jour(); i++){
-        this->sequence_Id_Poi_Par_Jour.push_back(stock_and_get(i));
-    }
-}
+

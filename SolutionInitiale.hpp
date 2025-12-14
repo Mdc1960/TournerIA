@@ -28,14 +28,11 @@ public:
     SolutionInitiale(Instance* instance);
     ~SolutionInitiale(){}
     void display_sequence_poi();
-    void load_sequence();
-    void fill_objective_function_value();
     float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
     vector<int> get_intermediate_hotel(){ return hotel_Intermedaire; }
     vector<vector<int>> get_sequence_poi_par_jour(){ return sequence_Id_Poi_Par_Jour; }
     vector<float> get_date_depart(){ return v_Date_Depart; }
     int get_objective_function_value_int(){ return i_valeur_fonction_objectif; }
-    void show_poi_visited();
 
 
     //
@@ -48,21 +45,14 @@ public:
     //
 
 private:
-
-    
-    
-    vector<int> stock_and_get(int id_jour);
-    vector<float> distance_Hotel_and_all_Poi(int index_hotel, int length_poi,int id_jour);
     
     int max_Index(vector<float> distance);
-    int get_Best_Index_From_Poi_Poi_Distance(int index_curent_Poi,float distance,int id_jour);
     int find_Min_Index(vector<float> distance);
     void add_to_poi_visited(int index_poi);
     bool poi_already_visited(int index_poi);
     void add_to_intermadiate_hotel(int index);
     bool hotel_already_in_intermedaite_hotel(int index);
     int find_best_intermediate_hotel_from_poi(int index_poi, float current_distance, float max_distance);
-    bool belongs_to_prohibited_poi(int index_poi);
     
 
     
