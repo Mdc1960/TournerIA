@@ -14,6 +14,7 @@ using namespace std;
 
 int Resolution(Instance * instance);
 void test(Instance* instance);
+int ResolutionBis(Instance * instance);
  
 
 int main(int argc, const char * argv[])
@@ -54,9 +55,10 @@ int main(int argc, const char * argv[])
                     i_best_solution_score=Resolution(instance);
                     cout<< " Fin de résolution de "<<s_tmp<<endl;
                     chrono_end = chrono::system_clock::now();
+                    
 
                     cout << "Test" << endl;
-                    test(instance);
+                    //test(instance);
                     cout << "Test f" << endl;
 
                     /*cout << "Sh" << endl;
@@ -67,6 +69,21 @@ int main(int argc, const char * argv[])
                     fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
                     s_tmp="";
                     getline(fichier,s_tmp);
+
+                    cout << "-----------------------------------" << endl;
+
+                    chrono_start = chrono::system_clock::now();
+                    i_best_solution_score=ResolutionBis(instance);
+                    cout<< " Fin de résolution de "<<s_tmp<<endl;
+                    chrono_end = chrono::system_clock::now();
+
+                    elapsed=chrono_end-chrono_start;
+                    fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
+                    s_tmp="";
+                    getline(fichier,s_tmp);
+
+                    cout << "-----------------------------------" << endl;
+
                     delete instance;
                 }
                 fichier_Sortie.close();
@@ -117,10 +134,53 @@ int Resolution(Instance * instance)
     return i_val_Retour_Fct_obj;
 }
 
+int ResolutionBis(Instance * instance)
+{
+    cout << "Test Start : " << endl;
+
+    SolutionInitiale initial = SolutionInitiale(instance);
+    initial.load_sequence();
+    initial.display_sequence_poi();
+    initial.fill_objective_function_value();
+
+    int i_val_Retour_Fct_obj=0;
+    Solution * uneSolution = new Solution();
+    vector<int> v_i_tmp ;
+
+    //INITIALISATION D'UN SOLUTION EN DUR POUR L'INSTANCE 1
+    v_i_tmp.clear();
+    for (int i = 0; i < initial.get_intermediate_hotel().size(); ++i){
+        uneSolution->v_Id_Hotel_Intermedaire.push_back(initial.get_intermediate_hotel()[i]);
+    }
+    for (int i = 0; i < initial.get_date_depart().size(); ++i){
+        uneSolution->v_Date_Depart.push_back(initial.get_date_depart()[i]);
+    }
+    for (int i = 0; i < initial.get_sequence_poi_par_jour().size(); ++i){
+        v_i_tmp = vector<int>();
+        for (int j = 0; j < initial.get_sequence_poi_par_jour()[i].size(); ++j){
+            v_i_tmp.push_back(initial.get_sequence_poi_par_jour()[i][j]);
+        }
+        uneSolution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
+    }
+    uneSolution->i_valeur_fonction_objectif = (int)initial.get_objective_function_value();
+
+    
+    uneSolution->Verification_Solution(instance);
+    
+    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
+    delete uneSolution;
+
+    cout << "Test End" << endl;
+
+    return i_val_Retour_Fct_obj;
+}
+
 void test(Instance* instance){
     SolutionInitiale initial = SolutionInitiale(instance);
     initial.load_sequence();
     initial.display_sequence_poi();
     initial.fill_objective_function_value();
     cout << "Objective function value : " << initial.get_objective_function_value() << endl;
+
+    
 }

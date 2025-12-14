@@ -27,6 +27,10 @@ public:
     void load_sequence();
     void fill_objective_function_value();
     float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
+    vector<int> get_intermediate_hotel(){ return hotel_Intermedaire; }
+    vector<vector<int>> get_sequence_poi_par_jour(){ return sequence_Id_Poi_Par_Jour; }
+    vector<float> get_date_depart(){ return v_Date_Depart; }
+    int get_objective_function_value_int(){ return i_valeur_fonction_objectif; }
 
 private:
     

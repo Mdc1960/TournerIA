@@ -171,3 +171,10 @@
 ./Data/Inst1.txt	9.3e-05	816
  Fichier données	 Tps de résolution 	 Best solution
 ./Data/Inst1.txt	7.3e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	7.4e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	7.9e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	8.2e-05	816
+./Data/Inst1.txt	54.0994	312

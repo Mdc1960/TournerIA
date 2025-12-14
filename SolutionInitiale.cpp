@@ -210,6 +210,7 @@ int SolutionInitiale::get_Best_Index_From_Poi_Poi_Distance(int index_curent_Poi)
             if (belongs_to_prohibited_poi(index)){
                 cout << "Prohibited poi : " << index << endl;
                 list_distance[index] = -1;
+                
             }else{
                 list_distance.push_back(this->instance->get_POI_Score(index)/this->instance->get_distance_POI_POI(index_curent_Poi,index));
             }
