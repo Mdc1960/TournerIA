@@ -74,7 +74,7 @@ int main(int argc, const char * argv[])
 
                     chrono_start = chrono::system_clock::now();
                     i_best_solution_score=ResolutionBis(instance);
-                    cout<< " Fin de résolution de "<<s_tmp<<endl;
+                    cout<< " Fin de résolution de "<<s_tmp << " Bis" <<endl;
                     chrono_end = chrono::system_clock::now();
 
                     elapsed=chrono_end-chrono_start;

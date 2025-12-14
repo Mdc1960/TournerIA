@@ -36,8 +36,7 @@ private:
     
     vector<int> stock_and_get(int id_jour);
     vector<float> distance_Hotel_and_all_Poi(int index_hotel, int length_poi);
-    vector<int> find_Poi_Index_By_Condition(vector<float> distance, float condition);
-    int max_Poi_index(vector<float> distance, int length_poi, vector<int> listIndex);
+    
     int max_Index(vector<float> distance);
     int get_Best_Index_From_Poi_Poi_Distance(int index_curent_Poi);
     int find_Min_Index(vector<float> distance);
