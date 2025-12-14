@@ -30,20 +30,24 @@ SolutionInitiale::SolutionInitiale(Instance *instance)
     cout << "NB Jours ::: " << this->instance->get_Nombre_Jour() << endl;*/
 }
 
-vector<int> SolutionInitiale::stock_and_get(int poi_index, int id_jour)
+vector<int> SolutionInitiale::stock_and_get(int id_jour)
 {
 
+    
     int length_poi = this->instance->get_Nombre_POI();
     vector<int> sequence_jour = vector<int>();
     float distance_jour = this->instance->get_POI_Duree_Max_Voyage(id_jour);
-    float total_distance = 0;
+    float total_distance = 0.0f;
     bool isMovable = true;
+    v_Date_Depart.push_back((float)total_distance);
 
     //hotel_Intermedaire.push_back(hotel_depart);
 
     cout << "Depart : " << hotel_depart << " Durée Jour : " << distance_jour << endl;
 
     vector<float> stock = vector<float>();
+
+
     
     
 
@@ -77,6 +81,7 @@ vector<int> SolutionInitiale::stock_and_get(int poi_index, int id_jour)
     int poi_best_index = get_Best_Index_From_Poi_Poi_Distance(max_index);
 
     cout << "Best poi index = " << poi_best_index << endl;
+    cout << "Distance to best poi = " << this->instance->get_distance_POI_POI(max_index,poi_best_index) << endl;
 
     int current_poi_index = max_index;
 
@@ -85,10 +90,10 @@ vector<int> SolutionInitiale::stock_and_get(int poi_index, int id_jour)
     while (isMovable){
         int poi_best_index = get_Best_Index_From_Poi_Poi_Distance(current_poi_index);
         nb_iteration++;
-        if ((nb_iteration)>1000000 ? true : false){
+        if ((nb_iteration)>4000000 ? true : false){
             isMovable = false;
         }
-        cout << "Visit : " << " Dist = " << total_distance + this->instance->get_distance_POI_POI(current_poi_index,poi_best_index) << endl;
+        //cout << "Visit : " << " Dist = " << total_distance + this->instance->get_distance_POI_POI(current_poi_index,poi_best_index) << endl;
         if (total_distance + this->instance->get_distance_POI_POI(current_poi_index,poi_best_index) < distance_jour){
             
             
@@ -98,7 +103,7 @@ vector<int> SolutionInitiale::stock_and_get(int poi_index, int id_jour)
                 total_distance += this->instance->get_distance_POI_POI(current_poi_index,poi_best_index);
                 current_poi_index = poi_best_index;
             }
-            cout << "Totale distance = " << total_distance << " - " << " Jour distance = " << distance_jour << endl;
+            //cout << "Totale distance = " << total_distance << " - " << " Jour distance = " << distance_jour << endl;
             
         }
         
@@ -111,8 +116,12 @@ vector<int> SolutionInitiale::stock_and_get(int poi_index, int id_jour)
     cout << endl;
 
     cout << "Current Poi = " << current_poi_index << endl;
+    cout << "Final $ Total distance = " << total_distance << " - " << distance_jour << endl;
 
-    hotel_depart = 1;
+    hotel_depart = find_best_intermediate_hotel_from_poi(current_poi_index);
+
+    add_to_intermadiate_hotel(hotel_depart);
+
     
     
    
@@ -129,7 +138,14 @@ vector<float> SolutionInitiale::distance_Hotel_and_all_Poi(int index_hotel, int 
     if (index_hotel <= this->instance->get_Nombre_Hotel() && length_poi <= this->instance->get_Nombre_POI()){
         for(int index = 0; index < length_poi; ++index){
             float hp = this->instance->get_distance_Hotel_POI(index_hotel, index);
-            distance.push_back(this->instance->get_POI_Score(index)/hp);
+            if(hp == 0){
+                distance.push_back(-1);
+                prohibited_poi.push_back(index);
+            }else{
+                distance.push_back(this->instance->get_POI_Score(index)/hp);
+            }
+            
+            
         }
     }
     return distance;
@@ -165,17 +181,18 @@ int SolutionInitiale::max_Poi_index(vector<float> distance, int length_poi, vect
 
 int SolutionInitiale::max_Index(vector<float> distance)
 {
-     
     if (distance.empty()) return -1;
 
     float max_value = distance[0];
     int max_index = 0;
 
     for (int i = 1; i < distance.size(); ++i){
+        
         if (max_value < distance[i]){
-            cout << "Max "<< max_value << " - " << distance[i] << endl;
+            //cout << "Max "<< max_value << " - " << distance[i] << endl;
             max_value = distance[i];
             max_index = i;
+            
         }
     }
     
@@ -190,7 +207,13 @@ int SolutionInitiale::get_Best_Index_From_Poi_Poi_Distance(int index_curent_Poi)
 
     for (int index = 0; index < this->instance->get_Nombre_POI(); ++index){
         if(index != index_curent_Poi){
-            list_distance.push_back(this->instance->get_POI_Score(index)/this->instance->get_distance_POI_POI(index_curent_Poi,index));
+            if (belongs_to_prohibited_poi(index)){
+                cout << "Prohibited poi : " << index << endl;
+                list_distance[index] = -1;
+            }else{
+                list_distance.push_back(this->instance->get_POI_Score(index)/this->instance->get_distance_POI_POI(index_curent_Poi,index));
+            }
+            
         }
     }
 
@@ -205,11 +228,15 @@ int SolutionInitiale::find_Min_Index(vector<float> distance)
     int min_index = 0;
 
     for (int i = 1; i < distance.size(); ++i){
+        
         if (min_value > distance[i]){
-            cout << "Min "<< min_value << " - " << distance[i] << endl;
-            min_value = distance[i];
-            min_index = i;
+            
+            if (min_index != this->instance->get_Id_Hotel_Arrivee()){
+                min_value = distance[i];
+                min_index = i;
+            }
         }
+        
     }
     
 
@@ -246,13 +273,15 @@ int SolutionInitiale::find_best_intermediate_hotel_from_poi(int index_poi)
     vector<float> list_distance = vector<float>();
 
     for (int index = 0; index < this->instance->get_Nombre_Hotel(); ++index){
-        if (index != this->hotel_depart){
-            list_distance.push_back(this->instance->get_distance_Hotel_POI(index_poi,index));
-        }
-        
+        list_distance.push_back(this->instance->get_distance_Hotel_POI(index,index_poi));
     }
 
     return find_Min_Index(list_distance);
+}
+
+bool SolutionInitiale::belongs_to_prohibited_poi(int index_poi)
+{ 
+    return find(prohibited_poi.begin(),prohibited_poi.end(),index_poi) != prohibited_poi.end();
 }
 
 void SolutionInitiale::display_sequence_poi()
@@ -271,6 +300,6 @@ void SolutionInitiale::display_sequence_poi()
 void SolutionInitiale::load_sequence()
 {
     for (int i = 0; i < this->instance->get_Nombre_Jour(); i++){
-        this->sequence_Id_Poi_Par_Jour.push_back(stock_and_get(0,i));
+        this->sequence_Id_Poi_Par_Jour.push_back(stock_and_get(i));
     }
 }

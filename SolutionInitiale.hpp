@@ -17,7 +17,8 @@ private:
     vector<int> poi_visited = vector<int>();     
     vector<int> hotel_Intermedaire = vector<int>();        
     vector<vector<int>> sequence_Id_Poi_Par_Jour = vector<vector<int>>();   
-    vector<float> v_Date_Depart = vector<float>();                    
+    vector<float> v_Date_Depart = vector<float>();
+    vector<int> prohibited_poi = vector<int>();                    
     int i_valeur_fonction_objectif = 0;
 public:
     SolutionInitiale(Instance* instance);
@@ -27,7 +28,7 @@ public:
 
 private:
     
-    vector<int> stock_and_get(int poi_index, int id_jour);
+    vector<int> stock_and_get(int id_jour);
     vector<float> distance_Hotel_and_all_Poi(int index_hotel, int length_poi);
     vector<int> find_Poi_Index_By_Condition(vector<float> distance, float condition);
     int max_Poi_index(vector<float> distance, int length_poi, vector<int> listIndex);
@@ -39,6 +40,7 @@ private:
     void add_to_intermadiate_hotel(int index);
     bool hotel_already_in_intermedaite_hotel(int index);
     int find_best_intermediate_hotel_from_poi(int index_poi);
+    bool belongs_to_prohibited_poi(int index_poi);
     
     
     
