@@ -57,6 +57,7 @@ void SolutionInitiale::build_solution()
     bool isMovable = true;
 
     int depart = this->hotel_depart;
+    int depart_or_intermediate_hotel = this->hotel_depart;
     cout << "Hotel Depart : " << depart << endl;
     
     for(int jour_index = 0; jour_index < nombre_jour; ++jour_index){
@@ -80,7 +81,7 @@ void SolutionInitiale::build_solution()
 
                 if (total_distance < max_distance_jour){
                     total_distance += distance_to_next_poi_or_hotel(depart, poi_best_index, is_hotel ? HOTEL : POI);
-                    i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_best_index);
+                    
                     depart = poi_best_index;
                     is_hotel = false;
                     cout << "Total distance after visit : " << total_distance << endl;
@@ -93,8 +94,46 @@ void SolutionInitiale::build_solution()
                     total_distance -= distance_to_next_poi_or_hotel(depart, poi_best_index, is_hotel ? HOTEL : POI);
                     cout << "Reverted total distance : " << total_distance << endl;
                     // End of day
+
+                    int dept = find_best_intermediate_hotel_from_poi(depart, total_distance, max_distance_jour);
+
+                    float dist = this->instance->get_distance_Hotel_POI(depart_or_intermediate_hotel, sequence_jour[0]);
+
+                    for (int k = 1; k < sequence_jour.size(); ++k){
+                        float dist_tmp = this->instance->get_distance_POI_POI(sequence_jour[k-1], sequence_jour[k]);
+                        dist += dist_tmp;
+                    }
+                    dist += this->instance->get_distance_Hotel_POI(dept,sequence_jour[sequence_jour.size()-1]);
+
+                    cout << "### Distance calculation for day " << jour_index << " : " << dist << " / " << max_distance_jour << endl;
+
+                    while(dist > max_distance_jour && !sequence_jour.empty()){
+                        int removed_poi = sequence_jour.back();
+                        sequence_jour.pop_back();
+                        poi_visited.pop_back();
+                        cout << "Removing POI " << removed_poi << " to fit distance." << endl;
+
+                        // Recalculate distance
+                        dist = this->instance->get_distance_Hotel_POI(depart_or_intermediate_hotel, sequence_jour[0]);
+
+                        for (int k = 1; k < sequence_jour.size(); ++k){
+                            float dist_tmp = this->instance->get_distance_POI_POI(sequence_jour[k-1], sequence_jour[k]);
+                            dist += dist_tmp;
+                        }
+                        dist += this->instance->get_distance_Hotel_POI(dept,sequence_jour[sequence_jour.size()-1]);
+                    }
+                    
+
+
                     sequence_Id_Poi_Par_Jour.push_back(sequence_jour);
+
+                    for (int poi_id : sequence_jour){
+                        i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_id);
+                    }
+
                     isMovable = false;
+                    cout << "Next Hotel Depart = " << depart << endl;
+                    
                     
                 }
 
@@ -111,8 +150,23 @@ void SolutionInitiale::build_solution()
             cout << "All POIs visited." << endl;
             break;  
         }else {
+
             // Find best intermediate hotel
             depart = find_best_intermediate_hotel_from_poi(depart, total_distance, max_distance_jour);
+
+            //vector<int> sequence_tmp = sequence_Id_Poi_Par_Jour.back();
+
+            /*float dist = this->instance->get_distance_Hotel_POI(depart_or_intermediate_hotel, sequence_tmp[0]);
+
+            for (int k = 1; k < sequence_tmp.size(); ++k){
+                float dist_tmp = this->instance->get_distance_POI_POI(sequence_tmp[k-1], sequence_tmp[k]);
+                dist += dist_tmp;
+            }
+            dist += this->instance->get_distance_Hotel_POI(depart,sequence_tmp[sequence_tmp.size()-1]);
+
+            cout << "### Distance calculation for day " << jour_index << " : " << dist << " / " << max_distance_jour << endl;*/
+            
+            depart_or_intermediate_hotel = depart;
             cout << "Next Hotel Depart = " << depart << endl;
             add_to_intermadiate_hotel(depart);
             v_Date_Depart.push_back(0.0f);
@@ -125,6 +179,8 @@ void SolutionInitiale::build_solution()
 
     }
     cout << "Total POIs visited : " << poi_visited.size() << " out of " << this->instance->get_Nombre_POI() << endl;
+
+    
 
 }
 

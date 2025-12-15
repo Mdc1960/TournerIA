@@ -278,3 +278,94 @@
  Fichier données	 Tps de résolution 	 Best solution
 ./Data/Inst1.txt	5.8e-05	816
 ./Data/Inst1.txt	0.00064	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.6e-05	816
+./Data/Inst1.txt	0.000757	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst2.txt	9.9e-05	816
+./Data/Inst2.txt	0.000878	810
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5e-05	816
+./Data/Inst1.txt	0.00078	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.9e-05	816
+./Data/Inst1.txt	0.000726	552
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.7e-05	816
+./Data/Inst1.txt	0.000693	504
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	3.9e-05	816
+./Data/Inst1.txt	0.000532	510
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.6e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	3.7e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	2.2e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.5e-05	816
+./Data/Inst1.txt	0.000548	510
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.9e-05	816
+./Data/Inst1.txt	0.000721	510
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	7.5e-05	816
+./Data/Inst1.txt	0.000756	510
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5e-05	816
+./Data/Inst1.txt	0.00067	510
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.1e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.3e-05	816
+./Data/Inst1.txt	0.000723	564
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.3e-05	816
+./Data/Inst1.txt	0.000773	564
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.8e-05	816
+./Data/Inst1.txt	0.000728	564
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.9e-05	816
+./Data/Inst1.txt	0.000729	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	7e-05	816
+./Data/Inst1.txt	0.000693	552
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.3e-05	816
+./Data/Inst1.txt	0.000738	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.9e-05	816
+./Data/Inst1.txt	0.000725	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.8e-05	816
+./Data/Inst1.txt	0.000744	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.5e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.7e-05	816
+./Data/Inst1.txt	0.000741	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	5.8e-05	816
+./Data/Inst1.txt	0.000767	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.3e-05	816
+./Data/Inst1.txt	0.000766	420
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	9e-05	816
+./Data/Inst1.txt	0.000888	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	7.9e-05	816
+./Data/Inst1.txt	0.000724	600
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	3.5e-05	816
+./Data/Inst1.txt	0.000508	402
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.8e-05	816
+./Data/Inst1.txt	0.00071	360
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.7e-05	816
+./Data/Inst1.txt	0.000712	360
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	6.6e-05	816
+./Data/Inst1.txt	0.000716	402
