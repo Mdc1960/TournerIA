@@ -65,7 +65,7 @@ int main(int argc, const char * argv[])
 
                     cout << "-----------------------------------" << endl;
 
-                    chrono_start = chrono::system_clock::now();
+                    /*chrono_start = chrono::system_clock::now();
                     i_best_solution_score=ResolutionBis(instance);
                     cout << "Bis Resolution Score : " << i_best_solution_score << endl;
                     cout<< " Fin de résolution de "<<s_tmp << " Bis" <<endl;
@@ -74,7 +74,9 @@ int main(int argc, const char * argv[])
                     elapsed=chrono_end-chrono_start;
                     fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
                     s_tmp="";
-                    getline(fichier,s_tmp);
+                    getline(fichier,s_tmp);*/
+
+                    test(instance);
 
                     cout << "-----------------------------------" << endl;
 
@@ -126,6 +128,14 @@ int Resolution(Instance * instance)
     i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
     delete uneSolution;
     return i_val_Retour_Fct_obj;
+}
+
+void test(Instance *instance)
+{
+    SolutionInitiale initial = SolutionInitiale(instance);
+    
+    cout << "POI est possible à visiter dans la journée (0, max 100, depart 0) : " << (initial.poi_is_possible_to_visit_in_day(0, 0, true, 100.0f) ? "OUI" : "NON") << endl;
+    cout << "POI est possible à visiter dans la journée (0, max 0, depart 0) : " << (initial.poi_is_possible_to_visit_in_day(0, 0, true, 0.0f) ? "OUI" : "NON") << endl;
 }
 
 int ResolutionBis(Instance * instance)

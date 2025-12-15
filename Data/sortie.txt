@@ -463,3 +463,11 @@
  Fichier données	 Tps de résolution 	 Best solution
 ./Data/Inst3.txt	0.000143	816
 ./Data/Inst3.txt	0.000879	696
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000141	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000136	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000101	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	8.9e-05	816

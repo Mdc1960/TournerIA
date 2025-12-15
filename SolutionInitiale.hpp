@@ -22,6 +22,7 @@ private:
     vector<vector<int>> sequence_Id_Poi_Par_Jour = vector<vector<int>>();   
     vector<float> v_Date_Depart = vector<float>();
     vector<int> prohibited_poi = vector<int>();
+    float total_distance_for_trip = 0.0f;
     bool is_hotel = true;                    
     int i_valeur_fonction_objectif = 0;
 public:
@@ -41,6 +42,8 @@ public:
     bool poi_is_accessible_from_current_position(int poi_index, float current_distance, int current_position, bool is_hotel);
     int best_poi_to_visit_from_current_position(int current_position, float current_distance, bool is_hotel);
     void build_solution();
+
+    bool poi_is_possible_to_visit_in_day(int poi_index, int current_position, bool is_hotel, float max_distance_jour);
 
     //
 

@@ -187,7 +187,40 @@ void SolutionInitiale::build_solution()
 
 }
 
+bool SolutionInitiale::poi_is_possible_to_visit_in_day(int poi_index, int current_position, bool is_hotel, float max_distance_jour)
+{
 
+    float distance_to_poi = distance_to_next_poi_or_hotel(current_position, poi_index, is_hotel ? HOTEL : POI);
+    if (distance_to_poi + total_distance_for_trip < max_distance_jour){
+
+        float ouveture = this->instance->get_POI_Heure_ouverture(poi_index);
+        float fermeture = this->instance->get_POI_Heure_fermeture(poi_index);
+
+        if (total_distance_for_trip + distance_to_poi >= fermeture){
+            return false;
+        }else{
+            if (total_distance_for_trip + distance_to_poi > ouveture){
+                this->total_distance_for_trip += distance_to_poi;
+                if (is_hotel){
+                    this->v_Date_Depart.push_back(0.0f);
+                }
+            }else{
+                
+                if (is_hotel){
+                    this->v_Date_Depart.push_back(ouveture - (total_distance_for_trip + distance_to_poi));
+                }
+                this->total_distance_for_trip += ouveture;
+            }
+
+            
+            return true;
+        }
+
+        
+    }
+
+    return false;
+}
 
 int SolutionInitiale::max_Index(vector<float> distance)
 {
