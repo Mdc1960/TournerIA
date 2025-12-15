@@ -67,6 +67,7 @@ int main(int argc, const char * argv[])
 
                     chrono_start = chrono::system_clock::now();
                     i_best_solution_score=ResolutionBis(instance);
+                    cout << "Bis Resolution Score : " << i_best_solution_score << endl;
                     cout<< " Fin de résolution de "<<s_tmp << " Bis" <<endl;
                     chrono_end = chrono::system_clock::now();
 
@@ -166,7 +167,9 @@ int ResolutionBis(Instance * instance)
     uneSolution->i_valeur_fonction_objectif = (int)initial.get_objective_function_value();
 
     
-    uneSolution->Verification_Solution(instance);
+    bool b = uneSolution->Verification_Solution(instance);
+
+    cout << "Verification de la solution : " << (b ? "OK" : "NOK") << endl;
     
     i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
     delete uneSolution;
