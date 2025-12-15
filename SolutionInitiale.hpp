@@ -28,6 +28,7 @@ private:
 public:
     SolutionInitiale(Instance* instance);
     ~SolutionInitiale(){}
+    float get_total_distance_for_trip(){ return total_distance_for_trip; }
     void display_sequence_poi();
     float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
     vector<int> get_intermediate_hotel(){ return hotel_Intermedaire; }
@@ -44,6 +45,11 @@ public:
     void build_solution();
 
     bool poi_is_possible_to_visit_in_day(int poi_index, int current_position, bool is_hotel, float max_distance_jour);
+
+    void build_Intermediate_Hotel_List();
+    int best_poi_between_two_hotels(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
+
+    void solution_by_building_hotel_first();
 
     //
 

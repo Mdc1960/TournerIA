@@ -471,3 +471,106 @@
 ./Data/Inst3.txt	0.000101	816
  Fichier données	 Tps de résolution 	 Best solution
 ./Data/Inst3.txt	8.9e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	9.8e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	9.1e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	9.6e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000138	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	9.5e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000102	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000102	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.000109	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst3.txt	0.00011	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	4.8e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst2.txt	6.9e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	7.7e-05	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0.000129	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0.000111	816
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0	0
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
