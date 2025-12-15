@@ -76,9 +76,10 @@ void SolutionInitiale::build_solution()
 
                 add_to_poi_visited(poi_best_index);
 
-                total_distance += distance_to_next_poi_or_hotel(depart, poi_best_index, is_hotel ? HOTEL : POI);
+                
 
                 if (total_distance < max_distance_jour){
+                    total_distance += distance_to_next_poi_or_hotel(depart, poi_best_index, is_hotel ? HOTEL : POI);
                     i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_best_index);
                     depart = poi_best_index;
                     is_hotel = false;
@@ -123,6 +124,7 @@ void SolutionInitiale::build_solution()
 
 
     }
+    cout << "Total POIs visited : " << poi_visited.size() << " out of " << this->instance->get_Nombre_POI() << endl;
 
 }
 
