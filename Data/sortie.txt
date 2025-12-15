@@ -574,3 +574,37 @@
  Fichier données	 Tps de résolution 	 Best solution
  Fichier données	 Tps de résolution 	 Best solution
  Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0.000227	30
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst4.txt	0.00022	30
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000103	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000151	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000164	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000178	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000137	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000177	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000199	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000156	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000176	0
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000171	30

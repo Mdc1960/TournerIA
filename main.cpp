@@ -13,7 +13,7 @@
 using namespace std;
 
 int Resolution(Instance * instance);
-void test(Instance* instance);
+int test(Instance* instance);
 int ResolutionBis(Instance * instance);
  
 
@@ -76,7 +76,18 @@ int main(int argc, const char * argv[])
                     s_tmp="";
                     getline(fichier,s_tmp);*/
 
-                    test(instance);
+                    //test(instance);
+
+                    chrono_start = chrono::system_clock::now();
+                    i_best_solution_score=test(instance);
+                    cout << "Bis Resolution Score : " << i_best_solution_score << endl;
+                    cout<< " Fin de résolution de "<<s_tmp << " Bis" <<endl;
+                    chrono_end = chrono::system_clock::now();
+
+                    elapsed=chrono_end-chrono_start;
+                    fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
+                    s_tmp="";
+                    getline(fichier,s_tmp);
 
                     cout << "-----------------------------------" << endl;
 
@@ -130,7 +141,8 @@ int Resolution(Instance * instance)
     return i_val_Retour_Fct_obj;
 }
 
-void test(Instance *instance)
+//------------------------------------- TESTING FUNCTION ---------------------------------------------
+int test(Instance *instance)
 {
     SolutionInitiale initial = SolutionInitiale(instance);
     
@@ -159,6 +171,55 @@ void test(Instance *instance)
     cout << "Building solution..." << endl;
     initial.solution_by_building_hotel_first();
     cout << "End building solution..." << endl;
+
+    int i_val_Retour_Fct_obj=0;
+    Solution * uneSolution = new Solution();
+    vector<int> v_i_tmp ;
+
+    v_i_tmp.clear();
+    
+    for (int i = 0; i < initial.get_intermediate_hotel().size(); ++i){
+        cout << "Intermediate Hotel Test : " << initial.get_intermediate_hotel()[i] << endl;
+        uneSolution->v_Id_Hotel_Intermedaire.push_back(initial.get_intermediate_hotel()[i]);
+    }
+    for (int i = 0; i < initial.get_date_depart().size(); ++i){
+        cout << "Date Depart Test : " << initial.get_date_depart()[i] << endl;
+        uneSolution->v_Date_Depart.push_back(initial.get_date_depart()[i]);
+    }
+    cout << "Sequence POI Test : " << endl;
+    for (int i = 0; i < initial.get_sequence_poi_par_jour().size(); ++i){
+        cout << i << " % ";
+        v_i_tmp = vector<int>();
+        for (int j = 0; j < initial.get_sequence_poi_par_jour()[i].size(); ++j){
+            v_i_tmp.push_back(initial.get_sequence_poi_par_jour()[i][j]);
+            cout << initial.get_sequence_poi_par_jour()[i][j] << " --> ";
+        }
+        uneSolution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
+        cout << " % ";
+    }
+    cout << endl;
+    uneSolution->i_valeur_fonction_objectif = (int)initial.get_objective_function_value();
+
+    
+    bool b = uneSolution->Verification_Solution(instance);
+
+    cout << "Verification de la solution : " << (b ? "OK" : "NOK") << endl;
+    
+    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
+    delete uneSolution;
+
+    cout << "Test End" << endl;
+
+    
+
+    cout << "Distance Hotel to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,HOTEL) << endl;
+    cout << "Distance POI to POI (0 to 1) : " << initial.distance_to_next_poi_or_hotel(0,1,POI) << endl;
+
+    for (int b = 0; b < initial.get_best_poi_from_hotel().size(); ++b){
+        cout << "Best POI from Hotel " << b << " is POI " << initial.get_best_poi_from_hotel()[b] << endl;
+    }
+
+    return i_val_Retour_Fct_obj;
 
 }
 

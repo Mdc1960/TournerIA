@@ -15,6 +15,7 @@ using namespace std;
 
 class SolutionInitiale{
 private:
+
     Instance* instance;
     int hotel_depart;
     vector<int> poi_visited = vector<int>();     
@@ -23,11 +24,15 @@ private:
     vector<float> v_Date_Depart = vector<float>();
     vector<int> prohibited_poi = vector<int>();
     float total_distance_for_trip = 0.0f;
+    vector<int> best_poi_from_hotel = vector<int>();
     bool is_hotel = true;                    
     int i_valeur_fonction_objectif = 0;
+
+
 public:
     SolutionInitiale(Instance* instance);
     ~SolutionInitiale(){}
+    vector<int> get_best_poi_from_hotel(){ return best_poi_from_hotel; }
     float get_total_distance_for_trip(){ return total_distance_for_trip; }
     void display_sequence_poi();
     float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
