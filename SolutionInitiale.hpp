@@ -15,6 +15,7 @@ using namespace std;
 
 class SolutionInitiale{
 private:
+
     Instance* instance;
     int hotel_depart;
     vector<int> poi_visited = vector<int>();     
@@ -22,11 +23,17 @@ private:
     vector<vector<int>> sequence_Id_Poi_Par_Jour = vector<vector<int>>();   
     vector<float> v_Date_Depart = vector<float>();
     vector<int> prohibited_poi = vector<int>();
+    float total_distance_for_trip = 0.0f;
+    vector<int> best_poi_from_hotel = vector<int>();
     bool is_hotel = true;                    
     int i_valeur_fonction_objectif = 0;
+
+
 public:
     SolutionInitiale(Instance* instance);
     ~SolutionInitiale(){}
+    vector<int> get_best_poi_from_hotel(){ return best_poi_from_hotel; }
+    float get_total_distance_for_trip(){ return total_distance_for_trip; }
     void display_sequence_poi();
     float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
     vector<int> get_intermediate_hotel(){ return hotel_Intermedaire; }
@@ -41,6 +48,18 @@ public:
     bool poi_is_accessible_from_current_position(int poi_index, float current_distance, int current_position, bool is_hotel);
     int best_poi_to_visit_from_current_position(int current_position, float current_distance, bool is_hotel);
     void build_solution();
+
+    bool poi_is_possible_to_visit_in_day(int poi_index, int current_position, bool is_hotel, float max_distance_jour);
+
+    void build_Intermediate_Hotel_List();
+    int best_poi_between_two_hotels(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
+
+    void solution_by_building_hotel_first();
+
+    int poi_between_hotel_and_last_hotel(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
+
+    int find_best_score_from_poi(vector<int> list_poi_index);
+    
 
     //
 
