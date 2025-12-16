@@ -165,8 +165,8 @@ int test(Instance *instance)
     }
     cout << endl;
 
-    int best_poi = initial.best_poi_between_two_hotels(instance->get_Id_Hotel_depart(), initial.get_intermediate_hotel().empty() ? instance->get_Id_Hotel_Arrivee() : initial.get_intermediate_hotel()[0], instance->get_POI_Duree_Max_Voyage(0));
-    cout << "Best POI between Hotel Depart and First Intermediate Hotel : " << best_poi << endl;
+    //int best_poi = initial.best_poi_between_two_hotels(instance->get_Id_Hotel_depart(), initial.get_intermediate_hotel().empty() ? instance->get_Id_Hotel_Arrivee() : initial.get_intermediate_hotel()[0], instance->get_POI_Duree_Max_Voyage(0));
+    //cout << "Best POI between Hotel Depart and First Intermediate Hotel : " << best_poi << endl;
 
     cout << "Building solution..." << endl;
     initial.solution_by_building_hotel_first();
