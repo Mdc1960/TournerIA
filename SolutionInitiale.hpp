@@ -59,6 +59,8 @@ public:
     int poi_between_hotel_and_last_hotel(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
 
     int find_best_score_from_poi(vector<int> list_poi_index);
+
+    int find_nearest_hotel_index(int index_current_hotel, int index_jour);
     
 
     //

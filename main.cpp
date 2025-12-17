@@ -146,28 +146,7 @@ int test(Instance *instance)
 {
     SolutionInitiale initial = SolutionInitiale(instance);
     
-    cout << "POI est possible à visiter dans la journée (0, max 100, depart 0) : " << (initial.poi_is_possible_to_visit_in_day(0, 0, true, 100.0f) ? "OUI" : "NON") << endl;
-    cout << "POI est possible à visiter dans la journée (0, max 0, depart 0) : " << (initial.poi_is_possible_to_visit_in_day(0, 0, true, 0.0f) ? "OUI" : "NON") << endl;
-    cout << "Distance Hotel to POI (0 to 0) : " << initial.distance_to_next_poi_or_hotel(0,0,HOTEL) << endl;
-    cout << "Trip total distance : " << initial.get_total_distance_for_trip() << endl;
     
-    cout << "Date Depart : " << initial.get_date_depart()[0] << endl;
-
-    cout << "Total hotels : " << instance->get_Nombre_Hotel() << endl;
-    cout << "Hotel Depart : " << instance->get_Id_Hotel_depart() << endl;
-    cout << "Hotel Arrivee : " << instance->get_Id_Hotel_Arrivee() << endl;
-    cout << "Nombre Jour : " << instance->get_Nombre_Jour() << endl;
-    initial.build_Intermediate_Hotel_List();
-    cout << "Size Intermediate Hotel List : " << initial.get_intermediate_hotel().size() << endl;
-    cout << "Intermediate Hotels : " << endl;
-    for (int i = 0; i < initial.get_intermediate_hotel().size(); ++i){
-        cout << initial.get_intermediate_hotel()[i] << " --> ";
-    }
-    cout << endl;
-
-    //int best_poi = initial.best_poi_between_two_hotels(instance->get_Id_Hotel_depart(), initial.get_intermediate_hotel().empty() ? instance->get_Id_Hotel_Arrivee() : initial.get_intermediate_hotel()[0], instance->get_POI_Duree_Max_Voyage(0));
-    //cout << "Best POI between Hotel Depart and First Intermediate Hotel : " << best_poi << endl;
-
     cout << "Building solution..." << endl;
     initial.solution_by_building_hotel_first();
     cout << "End building solution..." << endl;
