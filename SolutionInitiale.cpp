@@ -254,9 +254,9 @@ void SolutionInitiale::build_Intermediate_Hotel_List()
                     
                     depart = hotel_index;
 
-                    
-                    
+                                        
                 }else{
+                    cout << "Find nearet neighbor" << endl;
                     int hotel_index = find_nearest_hotel_index(depart, jour_index);
                     if (hotel_index != -1){
                         
@@ -270,7 +270,7 @@ void SolutionInitiale::build_Intermediate_Hotel_List()
                 }
                 
             }
-            //cout << "Day ?::? Nb Hotel intermediaire : " << hotel_Intermedaire.size() << " @ " << this->instance->get_Nombre_Jour() << endl;
+            
         }
         
     }
@@ -317,6 +317,12 @@ void SolutionInitiale::solution_by_building_hotel_first()
     build_Intermediate_Hotel_List();
 
     cout << "# - # Size : - : " << hotel_Intermedaire.size() + 1 << " - " << this->instance->get_Nombre_Jour() << endl;
+
+    cout << "@ - @ Hotel ";
+    for(auto h : hotel_Intermedaire){
+        cout << h << " --> ";
+    }
+    cout << endl;
 
     int current_hotel = this->instance->get_Id_Hotel_depart();
 
