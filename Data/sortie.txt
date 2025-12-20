@@ -182,3 +182,6 @@
  Fichier données	 Tps de résolution 	 Best solution
 ./Data/Inst1.txt	3.7e-05	816
 ./Data/Inst1.txt	0.000308	624
+ Fichier données	 Tps de résolution 	 Best solution
+./Data/Inst1.txt	0.000106	816
+./Data/Inst1.txt	0.000511	624
