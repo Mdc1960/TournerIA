@@ -75,7 +75,10 @@ int NearestNeighbor::generate_best_poi_or_hotel_neighbor(int index_last_poi, int
 void NearestNeighbor::nearest_neighbor()
 {
 
+    
+    int maxIteration = 10;
     for (int id_jour = 0; id_jour < this->instance->get_Nombre_Jour(); ++id_jour){
+        int iteration = 0;
         if (id_jour < this->hotel_Intermedaire.size()){
 
             float distance_max_jour = this->instance->get_POI_Duree_Max_Voyage(id_jour);
@@ -88,7 +91,7 @@ void NearestNeighbor::nearest_neighbor()
 
             vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
 
-            if (saved_sequence_day.empty()) continue;
+            //if (saved_sequence_day.empty()) continue;
 
             float last_distance_poi_hotel = this->instance->get_distance_Hotel_POI(last_position,saved_sequence_day[saved_sequence_day.size()-1]);
 
@@ -97,41 +100,96 @@ void NearestNeighbor::nearest_neighbor()
             vector<int> sequence_jour = vector<int>();
 
             while(movable){
-                cout << "Current total distance : " << total_distance_for_trip << " / " << distance_max_jour << endl;
+                
 
                 if (hotel){
                     int index_best_poi = best_poi_from_hotel(current_position,total_distance_for_trip, id_jour);
-                    if (!this->poi_already_visited(index_best_poi) && index_best_poi != -1 &&
+                    if (index_best_poi != -1){
+                        cout << "# - # Current total distance : " << total_distance_for_trip << " / " << distance_max_jour << endl;
+                        if (!this->poi_already_visited(index_best_poi) &&
                         find(sequence_jour.begin(),sequence_jour.end(),index_best_poi) == sequence_jour.end()){
 
                         
-                        float distance_hote_poi = this->instance->get_distance_Hotel_POI(current_position, index_best_poi);
-                        if (distance_hote_poi < this->instance->get_POI_Heure_fermeture(index_best_poi)){
-                            if (distance_hote_poi < this->instance->get_POI_Heure_ouverture(index_best_poi)){
-                                distance_hote_poi = this->instance->get_POI_Heure_ouverture(index_best_poi);
+                            float distance_hote_poi = this->instance->get_distance_Hotel_POI(current_position, index_best_poi);
+                            if (distance_hote_poi < this->instance->get_POI_Heure_fermeture(index_best_poi)){
+                                if (distance_hote_poi < this->instance->get_POI_Heure_ouverture(index_best_poi)){
+                                    distance_hote_poi = this->instance->get_POI_Heure_ouverture(index_best_poi);
+                                }
+                                this->total_distance_for_trip += distance_hote_poi;
+
+                                if (this->total_distance_for_trip + last_distance_poi_hotel <= distance_max_jour){
+
+                                    sequence_jour.push_back(index_best_poi);
+                                    add_to_poi_visited(index_best_poi);
+
+                                    hotel = false;
+                                    current_position = index_best_poi;
+
+
+
+                                }
                             }
-                            this->total_distance_for_trip += distance_hote_poi;
 
-                            if (this->total_distance_for_trip <= distance_max_jour){
+                        }
+                    }else{
+                        cout << "Best Poi not found !" << endl;
+                    }
+                    
 
-                                sequence_jour.push_back(index_best_poi);
-                                add_to_poi_visited(index_best_poi);
+                }else{
+                    cout << "# - # Total distance ! " << total_distance_for_trip << endl;
+                    cout << "# - # Curent poi ! " << current_position << endl;
+                    int index_best_poi = best_poi_from_poi(current_position,total_distance_for_trip, id_jour);
+                    cout << "# - # Best POI ! " << index_best_poi << endl;
 
-                                hotel = false;
-                                current_position = index_best_poi;
+                    if (index_best_poi != -1){
 
-                                
+                        float distance_between_poi = total_distance_for_trip + this->instance->get_distance_POI_POI(current_position,index_best_poi);
 
+                        if (distance_between_poi < distance_max_jour){
+                            if(distance_between_poi < this->instance->get_POI_Heure_fermeture(index_best_poi)){
+                                if (distance_between_poi < this->instance->get_POI_Heure_ouverture(index_best_poi)){
+                                    distance_between_poi = this->instance->get_POI_Heure_ouverture(index_best_poi);
+                                }
+                                if (!this->poi_already_visited(index_best_poi)){
+                                    sequence_jour.push_back(index_best_poi);
+
+                                    add_to_poi_visited(index_best_poi);
+                                    current_position = index_best_poi;
+                                    
+                                    total_distance_for_trip = distance_between_poi;
+                                }
                             }
                         }
 
-                    }
-                }else{
+                        
 
+                        
+                    }else{
+                        cout << "# - # Not Found POI" << endl;
+                    }
+
+                }
+                iteration++;
+                if (iteration == maxIteration){
+                    movable = false;
                 }
                 
 
             }
+
+            for (int j = 0; j < sequence_jour.size(); ++j){
+                int poi_id = sequence_jour[j];
+                i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_id);
+            }
+
+            sequence_jour.push_back(saved_sequence_day[saved_sequence_day.size()-1]);
+            sequence_Id_Poi_Par_Jour[id_jour] = sequence_jour;
+
+            
+
+        }else{
+            cout << "Compute last day action" << endl;
         }
 
         
@@ -163,10 +221,11 @@ int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id
 
                 float corrected_distance = distance_hotel_poi + total_distance;
 
-                if (corrected_distance < distance_max_by_day){
+                if (corrected_distance <= distance_max_by_day){
                     if (best_ratio < this->instance->get_POI_Score(p)/(corrected_distance)){
                         best_ratio = this->instance->get_POI_Score(p)/(corrected_distance);
                         best_poi_index = p;
+                        
                     }
                 }
 
@@ -182,7 +241,7 @@ int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id
 int NearestNeighbor::best_poi_from_poi(int poi_index, float total_distance, int id_jour)
 {
 
-    float best_ratio = -1.0f;
+    float best_ratio = -1.0;
     int best_poi_index = -1;
 
     float distance_max_by_day = this->instance->get_POI_Duree_Max_Voyage(id_jour);
@@ -190,20 +249,26 @@ int NearestNeighbor::best_poi_from_poi(int poi_index, float total_distance, int 
     for (int p = 0; p < this->instance->get_Nombre_POI(); ++p){
 
         if (!poi_already_visited(p) && p != poi_index){
-            float distance_poi_poi = this->instance->get_distance_POI_POI(p,poi_index);
-            if (distance_poi_poi < this->instance->get_POI_Heure_fermeture(p)){
+            
+            float distance_poi_poi = this->instance->get_distance_POI_POI(poi_index,p);
+            if (total_distance + distance_poi_poi < this->instance->get_POI_Heure_fermeture(p)){
 
-                if (distance_poi_poi < this->instance->get_POI_Heure_ouverture(p)){
+                if (total_distance + distance_poi_poi < this->instance->get_POI_Heure_ouverture(p)){
                     distance_poi_poi = this->instance->get_POI_Heure_ouverture(p);
                 }
+
+                
 
                 float corrected_distance = distance_poi_poi + total_distance;
 
                 if (corrected_distance < distance_max_by_day){
-                    if (best_ratio < this->instance->get_POI_Score(p)/(corrected_distance)){
-                        best_ratio = this->instance->get_POI_Score(p)/(corrected_distance);
+                    if (best_ratio <= this->instance->get_POI_Score(p)/(distance_poi_poi)){
+                        
+                        best_ratio = this->instance->get_POI_Score(p)/(distance_poi_poi);
                         best_poi_index = p;
+                        //cout << "# - # POI : " << p << " - ScoreRatio : " << best_ratio  << " - Score : " << this->instance->get_POI_Score(p) << " - Distance : " << distance_poi_poi << endl;
                     }
+                    
                 }
 
             }
@@ -211,5 +276,5 @@ int NearestNeighbor::best_poi_from_poi(int poi_index, float total_distance, int 
 
     }
 
-    return 0;
+    return best_poi_index;
 }
