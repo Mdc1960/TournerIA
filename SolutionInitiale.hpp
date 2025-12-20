@@ -14,7 +14,7 @@
 using namespace std;
 
 class SolutionInitiale{
-private:
+protected:
 
     Instance* instance;
     int hotel_depart;
@@ -63,11 +63,13 @@ public:
     int find_nearest_hotel_index(int index_current_hotel, int index_jour);
 
     bool hotel_is_in_itermadiate_hotel_list(int hotel_index);
+
+    vector<int> get_not_visited_poi();
     
 
     //
 
-private:
+protected:
     
     int max_Index(vector<float> distance);
     int find_Min_Index(vector<float> distance);
