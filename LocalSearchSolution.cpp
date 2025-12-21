@@ -75,8 +75,12 @@ int NearestNeighbor::generate_best_poi_or_hotel_neighbor(int index_last_poi, int
 void NearestNeighbor::nearest_neighbor()
 {
 
+    cout << "Intermadiate Hotel : " << hotel_Intermedaire.size() + 1 << " - Jour : " << this->instance->get_Nombre_Jour() << endl;
+
     
     int maxIteration = this->instance->get_Nombre_Hotel() + this->instance->get_Nombre_POI() + 1;
+
+
     for (int id_jour = 0; id_jour < this->instance->get_Nombre_Jour(); ++id_jour){
 
         int iteration = 0;
@@ -93,6 +97,7 @@ void NearestNeighbor::nearest_neighbor()
             
 
             vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
+            add_to_poi_visited(saved_sequence_day[saved_sequence_day.size()-1]);
 
             
 
@@ -165,14 +170,16 @@ void NearestNeighbor::nearest_neighbor()
                                     float distance_poi_last_poi = this->instance->get_distance_POI_POI(saved_sequence_day[saved_sequence_day.size()-1],index_best_poi);
 
                                     if (distance_between_poi + distance_poi_last_poi + last_distance_poi_hotel <= distance_max_jour){
-                                        
+                                        //cout << "# - # Ouverture/Fermeture POI : " << this->instance->get_POI_Heure_ouverture(index_best_poi) << " - " << this->instance->get_POI_Heure_fermeture(index_best_poi) << " ( " <<  index_best_poi << " )" << " - Distance : " << distance_between_poi << endl;
                                         if (!this->poi_already_visited(index_best_poi)){
+                                            //cout << "Which POI : " << index_best_poi << endl;
                                             sequence_jour.push_back(index_best_poi);
+                                            total_distance_for_trip = distance_between_poi;
 
                                             add_to_poi_visited(index_best_poi);
                                             current_position = index_best_poi;
                                             
-                                            total_distance_for_trip = distance_between_poi;
+                                            
                                         }
                                     }
 
@@ -187,10 +194,13 @@ void NearestNeighbor::nearest_neighbor()
 
                         
                     }else{
-                        cout << "# - # Not Found POI" << endl;
+                        //cout << "# - # Not Found POI" << endl;
                     }
 
                 }
+
+                
+
                 iteration++;
                 if (iteration == maxIteration){
                     movable = false;
@@ -207,7 +217,8 @@ void NearestNeighbor::nearest_neighbor()
             sequence_jour.push_back(saved_sequence_day[saved_sequence_day.size()-1]);
             sequence_Id_Poi_Par_Jour[id_jour] = sequence_jour;
 
-            
+            current_position = hotel_Intermedaire[id_jour];
+            this->total_distance_for_trip = 0.0f;
 
             
 
@@ -216,6 +227,7 @@ void NearestNeighbor::nearest_neighbor()
             current_position = hotel_Intermedaire[id_jour-1];
             int last_position = this->instance->get_Id_Hotel_Arrivee();
             vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
+            add_to_poi_visited(saved_sequence_day[saved_sequence_day.size()-1]);
 
             float last_distance_poi_hotel = this->instance->get_distance_Hotel_POI(last_position,saved_sequence_day[saved_sequence_day.size()-1]);
             this->total_distance_for_trip = 0.0f;
@@ -262,7 +274,7 @@ void NearestNeighbor::nearest_neighbor()
 
                         }
                     }else{
-                        cout << "Best Poi not found !" << endl;
+                        //cout << "Best Poi not found !" << endl;
                     }
                 }else{
                     //cout << "# - # About POI" << endl;
@@ -310,7 +322,7 @@ void NearestNeighbor::nearest_neighbor()
 
                         
                     }else{
-                        cout << "# - # Not Found POI" << endl;
+                        //cout << "# - # Not Found POI" << endl;
                     }
 
                 }
@@ -392,28 +404,24 @@ int NearestNeighbor::best_poi_from_poi(int poi_index, float total_distance, int 
 
         if (!poi_already_visited(p) && p != poi_index){
             
-            float distance_poi_poi = this->instance->get_distance_POI_POI(poi_index,p);
-            if (total_distance + distance_poi_poi < this->instance->get_POI_Heure_fermeture(p)){
+            float distance_poi_poi = total_distance + this->instance->get_distance_POI_POI(poi_index,p);
+            if (distance_poi_poi < distance_max_by_day){
+                if (distance_poi_poi < this->instance->get_POI_Heure_fermeture(p)){
 
-                if (total_distance + distance_poi_poi < this->instance->get_POI_Heure_ouverture(p)){
-                    distance_poi_poi = this->instance->get_POI_Heure_ouverture(p);
-                }
+                    if (total_distance + distance_poi_poi < this->instance->get_POI_Heure_ouverture(p)){
+                        distance_poi_poi = this->instance->get_POI_Heure_ouverture(p);
+                    }
 
-                
-
-                float corrected_distance = distance_poi_poi + total_distance;
-
-                if (corrected_distance < distance_max_by_day){
-                    if (best_ratio <= this->instance->get_POI_Score(p)/(distance_poi_poi)){
-                        
-                        best_ratio = this->instance->get_POI_Score(p)/(distance_poi_poi);
+                    if (best_ratio < this->instance->get_POI_Score(p)/(this->instance->get_distance_POI_POI(poi_index,p))){
+                            
+                        best_ratio = this->instance->get_POI_Score(p)/(this->instance->get_distance_POI_POI(poi_index,p));
                         best_poi_index = p;
                         //cout << "# - # POI : " << p << " - ScoreRatio : " << best_ratio  << " - Score : " << this->instance->get_POI_Score(p) << " - Distance : " << distance_poi_poi << endl;
                     }
-                    
-                }
 
+                }
             }
+            
         }
 
     }
