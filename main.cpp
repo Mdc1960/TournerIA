@@ -56,7 +56,7 @@ int main(int argc, const char * argv[])
                     instance->chargement_Instance(s_chemin);
                     
 
-                    chrono_start = chrono::system_clock::now();
+                    /*chrono_start = chrono::system_clock::now();
                     i_best_solution_score=Resolution(instance);
                     cout<< " Fin de résolution de "<<s_tmp<<endl;
                     chrono_end = chrono::system_clock::now();
@@ -66,7 +66,7 @@ int main(int argc, const char * argv[])
                     elapsed=chrono_end-chrono_start;
                     fichier_Sortie<<s_chemin <<"\t"<<elapsed.count()<<"\t"<< i_best_solution_score <<endl;
                     s_tmp="";
-                    getline(fichier,s_tmp);
+                    getline(fichier,s_tmp);*/
 
                     
 
@@ -239,7 +239,7 @@ int testBis(Instance * instance){
 
     nearestNeighbor.solution_by_building_hotel_first();
 
-    cout << "# - # Size poi not visited = " << nearestNeighbor.get_not_visited_poi().size() << endl;
+    /*cout << "# - # Size poi not visited = " << nearestNeighbor.get_not_visited_poi().size() << endl;
 
     
 
@@ -251,7 +251,7 @@ int testBis(Instance * instance){
 
     int index_poi = nearestNeighbor.best_poi_from_hotel(0,0.0,0);
 
-    cout << "& - & Best Poi - Poi = " << poi << endl;
+    cout << "& - & Best Poi - Poi = " << poi << endl;*/
 
 
     nearestNeighbor.nearest_neighbor();
