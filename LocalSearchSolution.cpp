@@ -150,23 +150,38 @@ void NearestNeighbor::nearest_neighbor()
 
                     if (index_best_poi != -1){
 
-                        float distance_between_poi = total_distance_for_trip + this->instance->get_distance_POI_POI(current_position,index_best_poi);
+                        if (!this->poi_already_visited(index_best_poi) &&
+                        find(sequence_jour.begin(),sequence_jour.end(),index_best_poi) == sequence_jour.end()){
 
-                        if (distance_between_poi < distance_max_jour){
-                            if(distance_between_poi < this->instance->get_POI_Heure_fermeture(index_best_poi)){
-                                if (distance_between_poi < this->instance->get_POI_Heure_ouverture(index_best_poi)){
-                                    distance_between_poi = this->instance->get_POI_Heure_ouverture(index_best_poi);
-                                }
-                                if (!this->poi_already_visited(index_best_poi)){
-                                    sequence_jour.push_back(index_best_poi);
+                            float distance_between_poi = total_distance_for_trip + this->instance->get_distance_POI_POI(current_position,index_best_poi);
 
-                                    add_to_poi_visited(index_best_poi);
-                                    current_position = index_best_poi;
+                            if (distance_between_poi < distance_max_jour){
+                                if(distance_between_poi < this->instance->get_POI_Heure_fermeture(index_best_poi)){
+
+                                    if (distance_between_poi < this->instance->get_POI_Heure_ouverture(index_best_poi)){
+                                        distance_between_poi = this->instance->get_POI_Heure_ouverture(index_best_poi);
+                                    }
+
+                                    float distance_poi_last_poi = this->instance->get_distance_POI_POI(saved_sequence_day[saved_sequence_day.size()-1],index_best_poi);
+
+                                    if (distance_between_poi + distance_poi_last_poi + last_distance_poi_hotel <= distance_max_jour){
+                                        
+                                        if (!this->poi_already_visited(index_best_poi)){
+                                            sequence_jour.push_back(index_best_poi);
+
+                                            add_to_poi_visited(index_best_poi);
+                                            current_position = index_best_poi;
+                                            
+                                            total_distance_for_trip = distance_between_poi;
+                                        }
+                                    }
+
                                     
-                                    total_distance_for_trip = distance_between_poi;
                                 }
                             }
                         }
+
+                        
 
                         
 
