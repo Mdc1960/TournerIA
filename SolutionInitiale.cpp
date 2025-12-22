@@ -236,10 +236,7 @@ void SolutionInitiale::build_Intermediate_Hotel_List()
     
     
     for (int jour_index = 0; jour_index < this->instance->get_Nombre_Jour() - 1; ++jour_index){
-        float score_ratio = -1.0;
-        int ideal_hotel_for_end_day = -1;
-        int best_poi_index = -1;
-
+        
         for (int hotel_index = 0; hotel_index < this->instance->get_Nombre_Hotel(); ++hotel_index){
             
             if (hotel_index != this->instance->get_Id_Hotel_depart() && hotel_index != arrivee){
@@ -519,7 +516,7 @@ int SolutionInitiale::find_best_score_from_poi(vector<int> list_poi_index)
 
 int SolutionInitiale::find_nearest_hotel_index(int index_current_hotel, int index_jour)
 {
-    float nearest_distance = -1.0f;
+    float nearest_distance = numeric_limits<float>::max();
     int nearest_index = -1;
 
     if (index_current_hotel != this->instance->get_Id_Hotel_Arrivee()){
@@ -533,9 +530,9 @@ int SolutionInitiale::find_nearest_hotel_index(int index_current_hotel, int inde
                     }
                     float total_distance = distance_hotel_poi + distance_poi_hotel;
                     if (total_distance < this->instance->get_POI_Duree_Max_Voyage(index_jour)){
-                        if (distance_hotel_poi > nearest_distance){
-                            nearest_distance = distance_hotel_poi;
-                            nearest_index = p;
+                        if (distance_poi_hotel < nearest_distance){
+                            nearest_distance = distance_poi_hotel;
+                            nearest_index = h;
                         }
                     }
                 }

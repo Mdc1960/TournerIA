@@ -18,6 +18,7 @@ int Resolution(Instance * instance);
 int test(Instance* instance);
 int ResolutionBis(Instance * instance);
 int testBis(Instance * instance);
+int heuristic_test(Instance* instance);
 
 
  
@@ -101,7 +102,7 @@ int main(int argc, const char * argv[])
 
                     cout << "----------------START-------------------" << endl;
                     chrono_start = chrono::system_clock::now();
-                    i_best_solution_score=testBis(instance);
+                    i_best_solution_score=heuristic_test(instance);
                     //cout << "Bis Resolution Score : " << i_best_solution_score << endl;
                     //cout<< " Fin de résolution de "<<s_tmp << " Bis" <<endl;
                     chrono_end = chrono::system_clock::now();
@@ -230,6 +231,54 @@ int test(Instance *instance)
 
 }
 
+// Heuristique test
+
+int heuristic_test(Instance* instance){
+    NearestNeighbor nearestNeighbor = NearestNeighbor(instance);
+
+    nearestNeighbor.heuristic_nearest_neighbor();
+
+    int i_val_Retour_Fct_obj=0;
+    Solution * uneSolution = new Solution();
+    vector<int> v_i_tmp ;
+
+    v_i_tmp.clear();
+
+    for (int i = 0; i < nearestNeighbor.get_intermediate_hotel().size(); ++i){
+        uneSolution->v_Id_Hotel_Intermedaire.push_back(nearestNeighbor.get_intermediate_hotel()[i]);
+    }
+
+    for (int i = 0; i < nearestNeighbor.get_date_depart().size(); ++i){
+        uneSolution->v_Date_Depart.push_back(nearestNeighbor.get_date_depart()[i]);
+    }
+
+    cout << "Nearest Neighbor Sequence POI Test : " << endl;
+    for (int i = 0; i < nearestNeighbor.get_sequence_poi_par_jour().size(); ++i){
+        cout << i << " % ";
+        v_i_tmp = vector<int>();
+        for (int j = 0; j < nearestNeighbor.get_sequence_poi_par_jour()[i].size(); ++j){
+            v_i_tmp.push_back(nearestNeighbor.get_sequence_poi_par_jour()[i][j]);
+            cout << nearestNeighbor.get_sequence_poi_par_jour()[i][j] << " --> ";
+        }
+        uneSolution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
+        cout << " % ";
+    }
+    cout << endl;
+
+    uneSolution->i_valeur_fonction_objectif = (int)nearestNeighbor.get_objective_function_value();
+
+    bool b = uneSolution->Verification_Solution(instance);
+
+    cout << "Verification de la solution : " << (b ? "OK" : "NOK") << endl;
+    
+    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
+
+
+    delete uneSolution;
+
+    return i_val_Retour_Fct_obj;
+}
+
 
 // Test bis
 
@@ -238,6 +287,8 @@ int testBis(Instance * instance){
     NearestNeighbor nearestNeighbor = NearestNeighbor(instance);
 
     nearestNeighbor.solution_by_building_hotel_first();
+
+    
 
     /*cout << "# - # Size poi not visited = " << nearestNeighbor.get_not_visited_poi().size() << endl;
 

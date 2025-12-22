@@ -28,6 +28,10 @@ public:
     void nearest_neighbor();
     int best_poi_from_hotel(int hotel, float total_distance, int id_jour);
     int best_poi_from_poi(int poi_index, float total_distance, int id_jour);
+    int find_nearest_poi_not_visited(int poi_index, float total_distance, int id_jour);
+
+    void heuristic_nearest_neighbor();
+    vector<int> build_list_hotel_for_all_journey();
 
     ///
 
