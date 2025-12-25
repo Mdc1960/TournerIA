@@ -101,6 +101,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         this->total_distance_for_trip = 0.0f;
 
         vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
+        cout << "# - # For Size = " << saved_sequence_day.size() << endl;
         add_to_poi_visited(saved_sequence_day[saved_sequence_day.size()-1]);
 
         float last_distance_poi_hotel_destination = this->instance->get_distance_Hotel_POI(hotel_destination,saved_sequence_day[saved_sequence_day.size()-1]);
