@@ -33,6 +33,12 @@ public:
     void heuristic_nearest_neighbor();
     vector<int> build_list_hotel_for_all_journey();
 
+    int determine_objective_function_value(vector<int> sequence_poi);
+
+    void order_poi_by_fermeture();
+
+    void GRASP();
+
     ///
 
 

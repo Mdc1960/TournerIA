@@ -273,6 +273,8 @@ int heuristic_test(Instance* instance){
     
     i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
 
+    //nearestNeighbor.order_poi_by_fermeture();
+
 
     delete uneSolution;
 

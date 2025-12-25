@@ -250,6 +250,7 @@ void SolutionInitiale::build_Intermediate_Hotel_List()
                     }
                     
                     depart = hotel_index;
+                    
 
                                         
                 }else{
@@ -293,9 +294,10 @@ int SolutionInitiale::best_poi_between_two_hotels(int hotel_depart_index, int ho
             if (distance_to_poi_from_depart < this->instance->get_POI_Heure_ouverture(k)){
                 distance_to_poi_from_depart = this->instance->get_POI_Heure_ouverture(k);
             }
+            
             float total_distance = distance_to_poi_from_depart + distance_to_arrivee_from_poi;
-            if (total_distance <= max_distance_jour){
-                if (max_ratio <= this->instance->get_POI_Score(k)/distance_to_arrivee_from_poi){
+            if (total_distance < max_distance_jour){
+                if (max_ratio < this->instance->get_POI_Score(k)/distance_to_arrivee_from_poi){
                     max_ratio = this->instance->get_POI_Score(k)/distance_to_arrivee_from_poi;
                     best_poi_index = k;
                     
@@ -344,7 +346,7 @@ void SolutionInitiale::solution_by_building_hotel_first()
 
     bool isMovable = true;
 
-    int depart = this->hotel_depart;
+    //int depart = this->hotel_depart;
     
     for (int j = 0; j < this->hotel_Intermedaire.size() + 1; ++j){
         
@@ -369,7 +371,7 @@ void SolutionInitiale::solution_by_building_hotel_first()
 
             
             
-            if (!poi_already_visited(last_poi_before_hotel) && distance_poi_to_last_hotel != -1){
+            if (!poi_already_visited(last_poi_before_hotel) && last_poi_before_hotel != -1){
                 poi_sequence_for_day.push_back(last_poi_before_hotel);
                 add_to_poi_visited(last_poi_before_hotel);
                 sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_day);
@@ -392,7 +394,7 @@ void SolutionInitiale::solution_by_building_hotel_first()
             
             
             total_distance_for_trip  = 0.0f;
-            depart = this->hotel_Intermedaire[j];
+            //depart = this->hotel_Intermedaire[j];
             current_hotel = this->hotel_Intermedaire[j];
             //cout << "Current Hotel :: " << current_hotel << " - Hotel initial : " << this->instance->get_Id_Hotel_depart() << endl;
 
@@ -407,10 +409,25 @@ void SolutionInitiale::solution_by_building_hotel_first()
 
             if (last_poi_before_last_hotel != -1){
                 cout << "Last Day :: " << j + 1 << endl;
-            
-                if (!poi_already_visited(last_poi_before_last_hotel)){
-                    poi_sequence_for_last_day.push_back(last_poi_before_last_hotel);
-                    sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
+
+                float distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(current_hotel, last_poi_before_last_hotel);
+                float distance_last_poi_hotel = this->instance->get_distance_Hotel_POI(this->instance->get_Id_Hotel_Arrivee(), last_poi_before_last_hotel);
+                
+                
+                if (distance_hotel_last_poi < this->instance->get_POI_Heure_ouverture(last_poi_before_last_hotel)){
+                    distance_hotel_last_poi = this->instance->get_POI_Heure_ouverture(last_poi_before_last_hotel);
+                }
+                
+                if (distance_hotel_last_poi < this->instance->get_POI_Heure_fermeture(last_poi_before_last_hotel) && 
+                    distance_hotel_last_poi + distance_last_poi_hotel <= this->instance->get_POI_Duree_Max_Voyage(j)){
+                    cout << "@ - @ POI is HERE" << endl;
+                    if (!poi_already_visited(last_poi_before_last_hotel)){
+                    
+                        poi_sequence_for_last_day.push_back(last_poi_before_last_hotel);
+                        sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
+                    
+                    }
+
                 }else{
                     cout << "$$ Visited." << endl;
 
@@ -499,7 +516,7 @@ int SolutionInitiale::poi_between_hotel_and_last_hotel(int hotel_depart_index, i
 
 }
 
-int SolutionInitiale::find_best_score_from_poi(vector<int> list_poi_index)
+/*int SolutionInitiale::find_best_score_from_poi(vector<int> list_poi_index)
 {
     int index = -1;
     int best_score = -1;
@@ -512,7 +529,7 @@ int SolutionInitiale::find_best_score_from_poi(vector<int> list_poi_index)
         }
     }
     return index;
-}
+}*/
 
 int SolutionInitiale::find_nearest_hotel_index(int index_current_hotel, int index_jour)
 {
@@ -559,12 +576,12 @@ int SolutionInitiale::find_nearest_hotel_index(int index_current_hotel, int inde
     return nearest_index;
 }
 
-bool SolutionInitiale::hotel_is_in_itermadiate_hotel_list(int hotel_index)
+/*bool SolutionInitiale::hotel_is_in_itermadiate_hotel_list(int hotel_index)
 {
     return find(hotel_Intermedaire.begin(),hotel_Intermedaire.end(),hotel_index) != hotel_Intermedaire.end();
-}
+}*/
 
-vector<int> SolutionInitiale::get_not_visited_poi()
+/*vector<int> SolutionInitiale::get_not_visited_poi()
 {
     vector<int> vect_poi = vector<int>();
 
@@ -575,7 +592,7 @@ vector<int> SolutionInitiale::get_not_visited_poi()
     }
 
     return vect_poi;
-}
+}*/
 
 int SolutionInitiale::max_Index(vector<float> distance)
 {
@@ -643,10 +660,10 @@ void SolutionInitiale::add_to_intermadiate_hotel(int index)
     }
 }
 
-bool SolutionInitiale::hotel_already_in_intermedaite_hotel(int index)
+/*bool SolutionInitiale::hotel_already_in_intermedaite_hotel(int index)
 {
     return find(hotel_Intermedaire.begin(),hotel_Intermedaire.end(),index) != hotel_Intermedaire.end();
-}
+}*/
 
 int SolutionInitiale::find_best_intermediate_hotel_from_poi(int index_poi, float current_distance, float max_distance)
 {
