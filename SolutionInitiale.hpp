@@ -46,11 +46,7 @@ public:
 
     float distance_to_next_poi_or_hotel(int index_current, int index_next_poi, int hotel_or_poi);
     bool poi_is_accessible_from_current_position(int poi_index, float current_distance, int current_position, bool is_hotel);
-    int best_poi_to_visit_from_current_position(int current_position, float current_distance, bool is_hotel);
-    void build_solution();
-
-    bool poi_is_possible_to_visit_in_day(int poi_index, int current_position, bool is_hotel, float max_distance_jour);
-
+    
     void build_Intermediate_Hotel_List();
     int best_poi_between_two_hotels(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
 
@@ -58,13 +54,9 @@ public:
 
     int poi_between_hotel_and_last_hotel(int hotel_depart_index, int hotel_arrivee_index, float max_distance_jour);
 
-    //int find_best_score_from_poi(vector<int> list_poi_index);
-
     int find_nearest_hotel_index(int index_current_hotel, int index_jour);
 
-    //bool hotel_is_in_itermadiate_hotel_list(int hotel_index);
-
-    //vector<int> get_not_visited_poi();
+    
     
 
     //
@@ -76,10 +68,7 @@ protected:
     void add_to_poi_visited(int index_poi);
     bool poi_already_visited(int index_poi);
     void add_to_intermadiate_hotel(int index);
-    //bool hotel_already_in_intermedaite_hotel(int index);
-    int find_best_intermediate_hotel_from_poi(int index_poi, float current_distance, float max_distance);
     
-
     
     
     
