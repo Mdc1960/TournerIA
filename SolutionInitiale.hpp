@@ -195,6 +195,9 @@ public:
     */
     int find_nearest_hotel_index(int index_current_hotel, int index_jour);
 
+
+    vector<int> get_unvisited_poi();
+
     void show_distance_last_hotel_and_others_hotel();
 
     void show_distance_last_hotel_and_poi();
@@ -240,6 +243,8 @@ protected:
     * @param index : int, Hotel to add to the intermadiate hotel list.
     */
     void add_to_intermadiate_hotel(int index);
+
+    
     
     
     

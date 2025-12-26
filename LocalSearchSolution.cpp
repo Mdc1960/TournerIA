@@ -29,7 +29,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
         if (saved_sequence_day.empty()) continue;
         add_to_poi_visited(saved_sequence_day[saved_sequence_day.size()-1]);
-
+        
         float last_distance_poi_hotel_destination = this->instance->get_distance_Hotel_POI(hotel_destination,saved_sequence_day[saved_sequence_day.size()-1]);
         int current_position = hotel_depart;
         int index_best_poi = -1;
@@ -38,6 +38,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
             if (hotel){
                 index_best_poi = best_poi_from_hotel(current_position,total_distance_for_trip, id_jour);
+                
                 if (index_best_poi != -1){
                     if (!this->poi_already_visited(index_best_poi) &&
                         find(sequence_jour.begin(),sequence_jour.end(),index_best_poi) == sequence_jour.end()){
@@ -133,6 +134,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
             i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_id);
         }
 
+        
         sequence_jour.push_back(saved_sequence_day[saved_sequence_day.size()-1]);
         sequence_Id_Poi_Par_Jour[id_jour] = sequence_jour;
 
@@ -168,7 +170,7 @@ int NearestNeighbor::determine_objective_function_value(vector<int> sequence_poi
 {
     int sum = 0;
     for (auto s : sequence_poi){
-        sum += s;
+        sum += this->instance->get_POI_Score(s);
     }
     return sum;
 }
@@ -193,6 +195,176 @@ void NearestNeighbor::order_poi_by_fermeture()
 
 }
 
+void NearestNeighbor::add_unvisited_poi_to_the_solution()
+{
+    vector<int> all_hotel = build_list_hotel_for_all_journey();
+
+
+
+    for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
+
+
+        int hotel_depart = all_hotel[sequence];
+        int hotel_arrive = all_hotel[sequence+1];
+
+        cout << "& - & Depart : " << hotel_depart << endl;
+        cout << "& - & Arrive : " << hotel_arrive << endl;
+
+        vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
+
+        cout << "# - # Total distance : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive, current_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
+
+        for (auto poi : this->get_unvisited_poi()){
+
+            int pos = -1;
+            int best_objective_value = -1;
+            float best_ratio = -1.0f;
+            
+            vector<int> tmp_sequence;
+            for (int index = 0; index < current_sequence.size() - 1; ++index){
+
+                tmp_sequence = vector<int>(current_sequence.size()+1,-1);
+
+                float distance_first_poi = this->instance->get_distance_POI_POI(current_sequence[index],poi);
+                float distance_second_poi = this->instance->get_distance_POI_POI(current_sequence[index + 1],poi);
+
+                if (distance_first_poi <= this->instance->get_POI_Heure_fermeture(poi) && 
+                    distance_second_poi <= this->instance->get_POI_Heure_fermeture(current_sequence[index + 1])){
+                    
+                    if (distance_first_poi < this->instance->get_POI_Heure_ouverture(poi)){
+                        distance_first_poi = this->instance->get_POI_Heure_ouverture(poi);
+                    }
+                    if (distance_second_poi < this->instance->get_POI_Heure_ouverture(current_sequence[index + 1])){
+                        distance_second_poi = this->instance->get_POI_Heure_ouverture(current_sequence[index + 1]);
+                    }
+
+                    tmp_sequence[index+1] = poi;
+                    for (int i = 0; i < current_sequence.size(); ++i){
+                        if (i <= index){
+                            tmp_sequence[i] = current_sequence[i];
+                        }else{
+                            tmp_sequence[i+1] = current_sequence[i];
+                        }
+                    }
+                    
+
+
+                    if (determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive,tmp_sequence) < this->instance->get_POI_Duree_Max_Voyage(sequence)){
+                        //cout << poi << " - " << current_sequence[index] << " : " << this->instance->get_POI_Score(current_sequence[index])/distance_first_poi << " ( - ) : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive,tmp_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
+
+                        
+                        cout << endl;
+                        if (best_ratio < this->instance->get_POI_Score(current_sequence[index])/distance_first_poi){
+                            best_ratio = this->instance->get_POI_Score(current_sequence[index])/distance_first_poi;
+                            pos = index;
+                            break;
+                        }
+                    
+                    }
+                    
+
+
+
+                }
+                
+            }
+
+            if (pos != -1){
+                cout << "** - ** THE BEST ::: " << pos << " # " << current_sequence[pos] << " - " << poi << endl;
+                vector<int> tmp = current_sequence;
+                tmp.insert(tmp.begin() + pos + 1, poi);
+                for (auto s : tmp){
+                    cout << s << " --> ";
+                }
+                
+                
+                vector<vector<int>> all_poi_sequence = sequence_Id_Poi_Par_Jour;
+
+                int obj = 0;
+                
+
+                all_poi_sequence[sequence] = tmp;
+
+                for (auto seq : all_poi_sequence){
+                    obj += determine_objective_function_value(seq);
+                }
+
+                cout << " # OBJ " << obj << endl;
+
+                Solution* solution = new Solution();
+
+                vector<int> v_i_tmp ;
+
+                v_i_tmp.clear();
+
+                for (int i = 0; i < get_intermediate_hotel().size(); ++i){
+                    solution->v_Id_Hotel_Intermedaire.push_back(get_intermediate_hotel()[i]);
+                }
+
+                for (int i = 0; i < get_date_depart().size(); ++i){
+                    solution->v_Date_Depart.push_back(get_date_depart()[i]);
+                }
+
+                for (int i = 0; i < all_poi_sequence.size(); ++i){
+                    
+                    v_i_tmp = vector<int>();
+                    for (int j = 0; j < all_poi_sequence[i].size(); ++j){
+                        v_i_tmp.push_back(all_poi_sequence[i][j]);
+                        
+                    }
+                    solution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
+                    
+                }
+
+                solution->i_valeur_fonction_objectif = (int)obj;
+
+                bool b = solution->Verification_Solution(this->instance);
+
+                if (b){
+                    cout << "@ - @ YOU GET IT" << endl;
+                }else{
+                    cout << "# - # Almost there" << endl;
+                }
+
+
+                delete solution;
+
+            }
+
+            //this->sequence_Id_Poi_Par_Jour[sequence] = 
+
+        }
+    }
+}
+
+void NearestNeighbor::two_opts(int first_poi_index, int second_poi_index)
+{
+}
+
+float NearestNeighbor::determine_distance_for_day_journey_except_a_poi(int hotel_depart, int hotel_arrive, vector<int> sequence_poi)
+{
+
+    float distance = 0.0f;
+
+    float first_distance = this->instance->get_distance_Hotel_POI(hotel_depart, sequence_poi[0]);
+    float second_distance = this->instance->get_distance_Hotel_POI(hotel_arrive, sequence_poi[sequence_poi.size()-1]);
+
+    
+    distance = first_distance + second_distance;
+
+    for(int index = 0; index < sequence_poi.size() - 1; ++index){
+        float current_distance = this->instance->get_distance_POI_POI(sequence_poi[index], sequence_poi[index + 1]);
+        
+        //cout << sequence_poi[index] << " - " << sequence_poi[index+1] << " $$ -- $$ : " << current_distance << endl;
+        distance += current_distance;
+    }
+
+   
+
+    return distance;
+}
+
+// Improvement of the initial solution
 void NearestNeighbor::GRASP()
 {
 

@@ -392,6 +392,20 @@ void SolutionInitiale::add_to_intermadiate_hotel(int index)
     }
 }
 
+vector<int> SolutionInitiale::get_unvisited_poi()
+{
+
+    vector<int> list_poi = vector<int>();
+
+    for (int p = 0; p < this->instance->get_Nombre_POI(); ++p){
+        if (!poi_already_visited(p)){
+            list_poi.push_back(p);
+        }
+    }
+
+    return list_poi;
+}
+
 void SolutionInitiale::show_distance_last_hotel_and_others_hotel()
 {
     for (int h = 0; h < this->instance->get_Nombre_Hotel(); ++h){

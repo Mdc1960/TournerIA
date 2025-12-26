@@ -20,6 +20,8 @@
 #include "Instance.hpp"
 
 #include "SolutionInitiale.hpp"
+#include "Solution.hpp"
+
 
 
 class NearestNeighbor : public SolutionInitiale{
@@ -45,6 +47,12 @@ public:
     int determine_objective_function_value(vector<int> sequence_poi);
 
     void order_poi_by_fermeture();
+
+    void add_unvisited_poi_to_the_solution();
+
+    void two_opts(int first_poi_index, int second_poi_index);
+
+    float determine_distance_for_day_journey_except_a_poi(int hotel_depart, int hotel_arrive, vector<int> sequence_poi);
 
     void GRASP();
 

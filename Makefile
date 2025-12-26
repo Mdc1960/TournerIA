@@ -1,5 +1,5 @@
 CXX = clang++
-CXXFLAGS = -std=c++17 -Wall -Wextra -g
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wconversion -g
 TARGET = main
 
 SRC = $(wildcard *.cpp)

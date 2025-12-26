@@ -153,7 +153,7 @@ int heuristic_test(Instance* instance){
     nearestNeighbor.heuristic_nearest_neighbor();
 
     int i_val_Retour_Fct_obj=0;
-    Solution * uneSolution = new Solution();
+    /*Solution * uneSolution = new Solution();
     vector<int> v_i_tmp ;
 
     v_i_tmp.clear();
@@ -185,19 +185,13 @@ int heuristic_test(Instance* instance){
 
     cout << "Verification de la solution : " << (b ? "OK" : "NOK") << endl;
     
-    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
+    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;*/
 
+    
+    
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
 
-    /*nearestNeighbor.show_distance_last_hotel_and_others_hotel();
-
-    nearestNeighbor.show_distance_last_hotel_and_poi();
-
-    cout << "Value ?::? " << nearestNeighbor.distance_to_next_poi_or_hotel(6,23,HOTEL) + nearestNeighbor.distance_to_next_poi_or_hotel(1,23,HOTEL) << endl;
-
-    nearestNeighbor.show_poi_ouverture_fermeture(23);*/
-
-
-    delete uneSolution;
+    //delete uneSolution;
 
     return i_val_Retour_Fct_obj;
 }
