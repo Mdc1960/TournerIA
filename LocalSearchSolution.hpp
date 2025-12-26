@@ -20,7 +20,7 @@
 #include "Instance.hpp"
 
 #include "SolutionInitiale.hpp"
-#include "Solution.hpp"
+#include "Checker.hpp"
 
 
 

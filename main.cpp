@@ -152,8 +152,10 @@ int heuristic_test(Instance* instance){
 
     nearestNeighbor.heuristic_nearest_neighbor();
 
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
+
     int i_val_Retour_Fct_obj=0;
-    /*Solution * uneSolution = new Solution();
+    Solution * uneSolution = new Solution();
     vector<int> v_i_tmp ;
 
     v_i_tmp.clear();
@@ -185,13 +187,13 @@ int heuristic_test(Instance* instance){
 
     cout << "Verification de la solution : " << (b ? "OK" : "NOK") << endl;
     
-    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;*/
+    i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
 
     
     
-    nearestNeighbor.add_unvisited_poi_to_the_solution();
+    
 
-    //delete uneSolution;
+    delete uneSolution;
 
     return i_val_Retour_Fct_obj;
 }

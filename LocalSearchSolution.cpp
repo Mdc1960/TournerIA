@@ -158,11 +158,6 @@ vector<int> NearestNeighbor::build_list_hotel_for_all_journey()
     }
     build_all_hotel.push_back(this->instance->get_Id_Hotel_Arrivee());
 
-    cout << "All Hotel : ";
-    for (auto h : build_all_hotel){
-        cout << h << " --> ";
-    }
-    cout << endl;
     return build_all_hotel;
 }
 
@@ -199,22 +194,18 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
 {
     vector<int> all_hotel = build_list_hotel_for_all_journey();
 
-
-
     for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
 
 
         int hotel_depart = all_hotel[sequence];
         int hotel_arrive = all_hotel[sequence+1];
 
-        cout << "& - & Depart : " << hotel_depart << endl;
-        cout << "& - & Arrive : " << hotel_arrive << endl;
-
         vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
 
-        cout << "# - # Total distance : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive, current_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
+        //cout << "# - # Total distance : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive, current_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
 
-        for (auto poi : this->get_unvisited_poi()){
+        vector<int> visited = this->get_unvisited_poi();
+        for (auto poi : visited){
 
             int pos = -1;
             int best_objective_value = -1;
@@ -252,9 +243,7 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
                     if (determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive,tmp_sequence) < this->instance->get_POI_Duree_Max_Voyage(sequence)){
                         //cout << poi << " - " << current_sequence[index] << " : " << this->instance->get_POI_Score(current_sequence[index])/distance_first_poi << " ( - ) : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive,tmp_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
 
-                        
-                        cout << endl;
-                        if (best_ratio < this->instance->get_POI_Score(current_sequence[index])/distance_first_poi){
+                        if (best_ratio <= this->instance->get_POI_Score(current_sequence[index])/distance_first_poi){
                             best_ratio = this->instance->get_POI_Score(current_sequence[index])/distance_first_poi;
                             pos = index;
                             break;
@@ -264,34 +253,25 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
                     
 
 
-
                 }
                 
             }
 
             if (pos != -1){
-                cout << "** - ** THE BEST ::: " << pos << " # " << current_sequence[pos] << " - " << poi << endl;
-                vector<int> tmp = current_sequence;
-                tmp.insert(tmp.begin() + pos + 1, poi);
-                for (auto s : tmp){
-                    cout << s << " --> ";
-                }
-                
                 
                 vector<vector<int>> all_poi_sequence = sequence_Id_Poi_Par_Jour;
 
                 int obj = 0;
                 
 
-                all_poi_sequence[sequence] = tmp;
+                all_poi_sequence[sequence] = tmp_sequence;
 
                 for (auto seq : all_poi_sequence){
                     obj += determine_objective_function_value(seq);
                 }
 
-                cout << " # OBJ " << obj << endl;
-
-                Solution* solution = new Solution();
+                
+                Checker* solution = new Checker();
 
                 vector<int> v_i_tmp ;
 
@@ -321,17 +301,27 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
                 bool b = solution->Verification_Solution(this->instance);
 
                 if (b){
-                    cout << "@ - @ YOU GET IT" << endl;
-                }else{
-                    cout << "# - # Almost there" << endl;
+                    //cout << "@ - @ YOU GET IT" << endl;
+
+                    sequence_Id_Poi_Par_Jour[sequence] = tmp_sequence;
+                    current_sequence = tmp_sequence;
+                    i_valeur_fonction_objectif = 0;
+                    for(auto s : sequence_Id_Poi_Par_Jour){
+                        i_valeur_fonction_objectif += determine_objective_function_value(s);
+                    }
+
+                    add_to_poi_visited(poi);
+
+                    visited.erase(remove(visited.begin(),visited.end(),poi),visited.end());
+
+                    
+
                 }
 
 
                 delete solution;
 
             }
-
-            //this->sequence_Id_Poi_Par_Jour[sequence] = 
 
         }
     }
