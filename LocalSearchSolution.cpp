@@ -27,7 +27,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         this->total_distance_for_trip = 0.0f;
 
         vector<int> saved_sequence_day = sequence_Id_Poi_Par_Jour[id_jour];
-        
+        if (saved_sequence_day.empty()) continue;
         add_to_poi_visited(saved_sequence_day[saved_sequence_day.size()-1]);
 
         float last_distance_poi_hotel_destination = this->instance->get_distance_Hotel_POI(hotel_destination,saved_sequence_day[saved_sequence_day.size()-1]);
@@ -66,7 +66,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
                                     hotel = false;
                                     current_position = index_best_poi;
-                                    this->total_distance_for_trip += distance_hotel_poi;
+                                    this->total_distance_for_trip = distance_hotel_poi;
                                 
                                 }
 
@@ -215,7 +215,7 @@ int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id
             float distance_hotel_poi = this->instance->get_distance_Hotel_POI(hotel,p);
 
             if (distance_hotel_poi < this->instance->get_POI_Duree_Max_Voyage(id_jour)){
-                if (distance_hotel_poi < this->instance->get_POI_Heure_fermeture(p)){
+                if (distance_hotel_poi <= this->instance->get_POI_Heure_fermeture(p)){
 
                     if (distance_hotel_poi < this->instance->get_POI_Heure_ouverture(p)){
                         distance_hotel_poi = this->instance->get_POI_Heure_ouverture(p);
@@ -223,7 +223,7 @@ int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id
 
                     float corrected_distance = distance_hotel_poi + total_distance;
 
-                    if (corrected_distance < distance_max_by_day){
+                    if (corrected_distance <= distance_max_by_day){
                         if (best_ratio < this->instance->get_POI_Score(p)/(distance_hotel_poi)){
                             best_ratio = this->instance->get_POI_Score(p)/(distance_hotel_poi);
                             best_poi_index = p;

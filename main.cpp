@@ -188,6 +188,15 @@ int heuristic_test(Instance* instance){
     i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
 
 
+    /*nearestNeighbor.show_distance_last_hotel_and_others_hotel();
+
+    nearestNeighbor.show_distance_last_hotel_and_poi();
+
+    cout << "Value ?::? " << nearestNeighbor.distance_to_next_poi_or_hotel(6,23,HOTEL) + nearestNeighbor.distance_to_next_poi_or_hotel(1,23,HOTEL) << endl;
+
+    nearestNeighbor.show_poi_ouverture_fermeture(23);*/
+
+
     delete uneSolution;
 
     return i_val_Retour_Fct_obj;

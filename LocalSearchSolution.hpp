@@ -1,6 +1,17 @@
 #ifndef SOLUTION_NEAREST_NEIGHBOR_H
 #define SOLUTION_NEAREST_NEIGHBOR_H
 
+
+/*!
+* \file  LocalSearchSolution.h
+* \brief Represent the first amelioration of the solution.
+*
+* \author  Mamadou COULIBALY
+* \author  Radia   MERABTENE
+* \version 1.0
+* \date	   25/12/2025
+*/
+
 #include <iostream>
 #include <fstream>
 #include <chrono>

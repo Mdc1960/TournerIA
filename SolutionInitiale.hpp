@@ -195,6 +195,12 @@ public:
     */
     int find_nearest_hotel_index(int index_current_hotel, int index_jour);
 
+    void show_distance_last_hotel_and_others_hotel();
+
+    void show_distance_last_hotel_and_poi();
+
+    void show_poi_ouverture_fermeture(int index);
+
     
     
 
@@ -203,16 +209,16 @@ public:
 protected:
     
     /*!
-    * Find the index of the maximun value in the distance list.
+    * Find the index of the maximum value in the distance list.
     * @param distance : vector<float>
-    * @return int, The index of the maximun value in the list.
+    * @return int, The index of the maximum value in the list.
     */
     int max_Index(vector<float> distance);
 
     /*!
-    * Find the index of the minimun value in the distance list.
+    * Find the index of the minimum value in the distance list.
     * @param distance : vector<float>
-    * @return int, The index of the minimun value in the list.
+    * @return int, The index of the minimum value in the list.
     */
     int find_Min_Index(vector<float> distance);
 
