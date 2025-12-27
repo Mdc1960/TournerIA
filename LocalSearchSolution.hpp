@@ -50,9 +50,13 @@ public:
 
     void add_unvisited_poi_to_the_solution();
 
-    void two_opts(int first_poi_index, int second_poi_index);
+    void two_opt();
 
-    float determine_distance_for_day_journey_except_a_poi(int hotel_depart, int hotel_arrive, vector<int> sequence_poi);
+    void swap();
+
+    bool sequence_is_valid(vector<vector<int>> all_sequence);
+
+    float determine_distance_for_day_journey(int hotel_depart, int hotel_arrive, vector<int> sequence_poi);
 
     void GRASP();
 

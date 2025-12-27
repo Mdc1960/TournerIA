@@ -153,6 +153,12 @@ int heuristic_test(Instance* instance){
     nearestNeighbor.heuristic_nearest_neighbor();
 
     nearestNeighbor.add_unvisited_poi_to_the_solution();
+    
+
+    //nearestNeighbor.two_opt();
+    nearestNeighbor.swap();
+
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
 
     int i_val_Retour_Fct_obj=0;
     Solution * uneSolution = new Solution();
