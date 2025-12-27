@@ -505,6 +505,19 @@ float NearestNeighbor::determine_distance_for_day_journey(int hotel_depart, int 
 void NearestNeighbor::GRASP()
 {
 
+    heuristic_nearest_neighbor();
+
+    int MaxIteration = this->instance->get_Nombre_Jour();
+
+    int iteration = 0;
+
+    while (iteration < MaxIteration){
+        add_unvisited_poi_to_the_solution();
+        swap();
+
+        iteration++;
+    }
+
 }
 
 
