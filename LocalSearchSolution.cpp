@@ -20,7 +20,9 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         int hotel_destination = all_hotel[id_jour + 1];
 
         int iteration = 0;
+        
         float distance_max_jour = this->instance->get_POI_Duree_Max_Voyage(id_jour);
+        
         vector<int> sequence_jour = vector<int>();
 
         bool hotel = true;
@@ -33,7 +35,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         float last_distance_poi_hotel_destination = this->instance->get_distance_Hotel_POI(hotel_destination,saved_sequence_day[saved_sequence_day.size()-1]);
         int current_position = hotel_depart;
         int index_best_poi = -1;
-
+        cout << "$$ -- $$" << endl;
         while(iteration < maxIteration){
 
             if (hotel){
@@ -128,6 +130,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
             iteration++;
         }
+        cout << "oo -- oo : " << iteration << " - o - " << maxIteration << endl;
 
         for (int j = 0; j < sequence_jour.size(); ++j){
             int poi_id = sequence_jour[j];
@@ -193,6 +196,8 @@ void NearestNeighbor::order_poi_by_fermeture()
 void NearestNeighbor::add_unvisited_poi_to_the_solution()
 {
     vector<int> all_hotel = build_list_hotel_for_all_journey();
+
+    cout << "oo -- oo SIZE = " << sequence_Id_Poi_Par_Jour.size() << " - " << this->instance->get_Nombre_Jour() << endl;
 
     for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
 
@@ -513,12 +518,14 @@ void NearestNeighbor::GRASP()
 
     int iteration = 0;
 
+    cout << " - o - GRASP - o -" << endl;
     while (iteration < MaxIteration){
         add_unvisited_poi_to_the_solution();
         swap();
 
         iteration++;
     }
+    cout << " - o - GRASP - o -" << endl;
 
 }
 

@@ -184,7 +184,7 @@ void SolutionInitiale::solution_by_building_hotel_first()
             current_hotel = this->hotel_Intermedaire[j];
 
         }else{
-
+            cout << "° -- ° Value = " << j  << " - " << this->instance->get_POI_Duree_Max_Voyage(j) << endl;
             int last_poi_before_last_hotel = poi_between_hotel_and_last_hotel(current_hotel, this->instance->get_Id_Hotel_Arrivee(),this->instance->get_POI_Duree_Max_Voyage(j));
             cout << "Last POI before last # hotel " << current_hotel << " is POI " << last_poi_before_last_hotel << endl;
 
@@ -253,13 +253,16 @@ void SolutionInitiale::solution_by_building_hotel_first()
                     }
                 }
                 if (pos != -1){
-                    distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],pos);
-                    poi_sequence_for_last_day.push_back(pos);
-                    add_to_poi_visited(pos);
-                    sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
-                    v_Date_Depart[v_Date_Depart.size()-1] = (this->instance->get_POI_Heure_ouverture(pos) > distance_hotel_last_poi)?this->instance->get_POI_Heure_ouverture(pos) - distance_hotel_last_poi:0.0f;
-                    cout << "POI ::: " << pos << endl;
-                    break;
+                    if (sequence_Id_Poi_Par_Jour.size() < this->instance->get_Nombre_Jour()){
+                        distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],pos);
+                        poi_sequence_for_last_day.push_back(pos);
+                        add_to_poi_visited(pos);
+                        sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
+                        v_Date_Depart[v_Date_Depart.size()-1] = (this->instance->get_POI_Heure_ouverture(pos) > distance_hotel_last_poi)?this->instance->get_POI_Heure_ouverture(pos) - distance_hotel_last_poi:0.0f;
+                        cout << "POI ::: " << pos << endl;
+                    }
+                    
+                    
                 }
                 
                 
