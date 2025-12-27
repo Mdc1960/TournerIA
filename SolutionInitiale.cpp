@@ -224,10 +224,14 @@ void SolutionInitiale::solution_by_building_hotel_first()
                 cout << "Find another POI for the last day !!!" << endl;
                 cout << "Last Day :: " << j + 1 << endl;
 
+                int pos = -1;
+                float min_distance = numeric_limits<float>::max();
+                float distance_hotel_last_poi = 0.0f;
+
                 for (int i = 0; i < this->instance->get_Nombre_POI(); ++i){
                     if (!poi_already_visited(i)){
 
-                        float distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],i);
+                        distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],i);
 
                         if (distance_hotel_last_poi < this->instance->get_POI_Heure_ouverture(i)){
                             distance_hotel_last_poi = this->instance->get_POI_Heure_ouverture(i);
@@ -239,8 +243,23 @@ void SolutionInitiale::solution_by_building_hotel_first()
                             add_to_poi_visited(i);
                             sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
                             break;
+                        }else{
+                            if (min_distance > distance_hotel_last_poi){
+                                pos = i;
+                                min_distance = distance_hotel_last_poi;
+                            }
+                            
                         }
                     }
+                }
+                if (pos != -1){
+                    distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],pos);
+                    poi_sequence_for_last_day.push_back(pos);
+                    add_to_poi_visited(pos);
+                    sequence_Id_Poi_Par_Jour.push_back(poi_sequence_for_last_day);
+                    v_Date_Depart[v_Date_Depart.size()-1] = (this->instance->get_POI_Heure_ouverture(pos) > distance_hotel_last_poi)?this->instance->get_POI_Heure_ouverture(pos) - distance_hotel_last_poi:0.0f;
+                    cout << "POI ::: " << pos << endl;
+                    break;
                 }
                 
                 
