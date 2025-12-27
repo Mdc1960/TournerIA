@@ -374,66 +374,68 @@ void NearestNeighbor::two_opt()
 
 void NearestNeighbor::swap()
 {
-    vector<int> all_hotel = build_list_hotel_for_all_journey();
+    if (sequence_is_valid(sequence_Id_Poi_Par_Jour)){
+        vector<int> all_hotel = build_list_hotel_for_all_journey();
 
-    for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
-        int hotel_depart = all_hotel[sequence];
-        int hotel_arrive = all_hotel[sequence+1];
+        for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
+            int hotel_depart = all_hotel[sequence];
+            int hotel_arrive = all_hotel[sequence+1];
 
-        vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
+            vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
 
-        cout << "# - # Sequence " << sequence << " : " << endl;
-        for (int i = 0; i < current_sequence.size() - 1; ++i){
+            cout << "# - # Sequence " << sequence << " : " << endl;
+            for (int i = 0; i < current_sequence.size() - 2; ++i){
 
-            float first_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 1]);
-            float second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 2]);
-            
-            float third_distance = this->instance->get_distance_POI_POI(current_sequence[i + 1], current_sequence[i + 2]);
-
-            if (first_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i]) &&
-                second_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i + 2])){
-
+                float first_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 1]);
+                float second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 2]);
                 
-                
+                float third_distance = this->instance->get_distance_POI_POI(current_sequence[i + 1], current_sequence[i + 2]);
 
-                //cout << current_sequence[i] << " <--> " << current_sequence[i + 1] << endl;
+                if (first_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i]) &&
+                    second_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i + 2])){
 
-                vector<vector<int>> tmp_all_sequence = this->sequence_Id_Poi_Par_Jour;
-                vector<int> tmp_sequence = current_sequence;
-
-                std::swap(tmp_sequence[i], tmp_sequence[i + 1]);
-                
-
-                tmp_all_sequence[sequence] = tmp_sequence;
-
-                bool b = sequence_is_valid(tmp_all_sequence);
-
-                if (b){
-                    cout << "After Swap : " << tmp_sequence[i] << " <--> " << tmp_sequence[i + 1] << endl;
-
-                    if (this->instance->get_POI_Score(current_sequence[i])/first_distance  <= this->instance->get_POI_Score(current_sequence[i + 1])/first_distance){
-                        cout << "** -- ** Score : " << this->instance->get_POI_Score(current_sequence[i])/first_distance << " - " << this->instance->get_POI_Score(current_sequence[i + 1])/first_distance << endl;
                     
-                        this->sequence_Id_Poi_Par_Jour = tmp_all_sequence;
+                    
 
-                        i_valeur_fonction_objectif = 0;
-                        for(auto s : sequence_Id_Poi_Par_Jour){
-                            i_valeur_fonction_objectif += determine_objective_function_value(s);
+                    cout << current_sequence[i] << " <--> " << current_sequence[i + 1] << endl;
+
+                    vector<vector<int>> tmp_all_sequence = this->sequence_Id_Poi_Par_Jour;
+                    vector<int> tmp_sequence = current_sequence;
+
+                    std::swap(tmp_sequence[i], tmp_sequence[i + 1]);
+                    
+
+                    tmp_all_sequence[sequence] = tmp_sequence;
+
+                    bool b = sequence_is_valid(tmp_all_sequence);
+
+                    if (b){
+                        cout << "After Swap : " << tmp_sequence[i] << " <--> " << tmp_sequence[i + 1] << endl;
+
+                        if (this->instance->get_POI_Score(current_sequence[i]) <= this->instance->get_POI_Score(current_sequence[i + 1])){
+                            cout << "** -- ** Score : " << this->instance->get_POI_Score(current_sequence[i]) << " - " << this->instance->get_POI_Score(current_sequence[i + 1])<< endl;
+                        
+                            this->sequence_Id_Poi_Par_Jour = tmp_all_sequence;
+
+                            i_valeur_fonction_objectif = 0;
+                            for(auto s : sequence_Id_Poi_Par_Jour){
+                                i_valeur_fonction_objectif += determine_objective_function_value(s);
+                            }
+                        
                         }
-                    
+                        break;
                     }
-                    break;
+
+                    //cout << (b? "OK":"NOT OK") << endl;
+
                 }
 
-                //cout << (b? "OK":"NOT OK") << endl;
 
+                
             }
+            cout << endl;
 
-
-            
         }
-        cout << endl;
-
     }
 }
 
