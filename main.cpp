@@ -150,7 +150,18 @@ int Resolution(Instance * instance)
 int heuristic_test(Instance* instance){
     NearestNeighbor nearestNeighbor = NearestNeighbor(instance);
 
-    nearestNeighbor.heuristic_nearest_neighbor();
+    /*nearestNeighbor.heuristic_nearest_neighbor();
+
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
+    
+
+    //nearestNeighbor.two_opt();
+    nearestNeighbor.swap();
+
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
+    nearestNeighbor.swap();*/
+
+    nearestNeighbor.GRASP();
 
     int i_val_Retour_Fct_obj=0;
     Solution * uneSolution = new Solution();
@@ -187,6 +198,9 @@ int heuristic_test(Instance* instance){
     
     i_val_Retour_Fct_obj=uneSolution->i_valeur_fonction_objectif;
 
+    
+    
+    
 
     delete uneSolution;
 
