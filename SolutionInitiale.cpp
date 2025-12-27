@@ -226,7 +226,14 @@ void SolutionInitiale::solution_by_building_hotel_first()
 
                 for (int i = 0; i < this->instance->get_Nombre_POI(); ++i){
                     if (!poi_already_visited(i)){
-                        if(this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],i) + this->instance->get_distance_Hotel_POI(this->instance->get_Id_Hotel_Arrivee(),i) <=  max_distance_jour &&
+
+                        float distance_hotel_last_poi = this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],i);
+
+                        if (distance_hotel_last_poi < this->instance->get_POI_Heure_ouverture(i)){
+                            distance_hotel_last_poi = this->instance->get_POI_Heure_ouverture(i);
+                        }
+
+                        if(distance_hotel_last_poi + this->instance->get_distance_Hotel_POI(this->instance->get_Id_Hotel_Arrivee(),i) <=  max_distance_jour &&
                             this->instance->get_distance_Hotel_POI(hotel_Intermedaire[hotel_Intermedaire.size()-1],i) <= this->instance->get_POI_Heure_fermeture(i)){
                             poi_sequence_for_last_day.push_back(i);
                             add_to_poi_visited(i);
@@ -392,6 +399,7 @@ void SolutionInitiale::add_to_intermadiate_hotel(int index)
     }
 }
 
+// List of unvisited POI
 vector<int> SolutionInitiale::get_unvisited_poi()
 {
 
