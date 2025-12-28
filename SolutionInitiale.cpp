@@ -184,7 +184,7 @@ void SolutionInitiale::solution_by_building_hotel_first()
             current_hotel = this->hotel_Intermedaire[j];
 
         }else{
-            cout << "° -- ° Value = " << j  << " - " << this->instance->get_POI_Duree_Max_Voyage(j) << endl;
+            
             int last_poi_before_last_hotel = poi_between_hotel_and_last_hotel(current_hotel, this->instance->get_Id_Hotel_Arrivee(),this->instance->get_POI_Duree_Max_Voyage(j));
             cout << "Last POI before last # hotel " << current_hotel << " is POI " << last_poi_before_last_hotel << endl;
 
