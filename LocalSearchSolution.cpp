@@ -265,48 +265,15 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
             if (pos != -1){
                 
                 vector<vector<int>> all_poi_sequence = sequence_Id_Poi_Par_Jour;
-
-                int obj = 0;
                 
 
                 all_poi_sequence[sequence] = tmp_sequence;
 
-                for (auto seq : all_poi_sequence){
-                    obj += determine_objective_function_value(seq);
-                }
+                bool valid = sequence_is_valid(all_poi_sequence);
 
                 
-                Checker* solution = new Checker();
 
-                vector<int> v_i_tmp ;
-
-                v_i_tmp.clear();
-
-                for (int i = 0; i < get_intermediate_hotel().size(); ++i){
-                    solution->v_Id_Hotel_Intermedaire.push_back(get_intermediate_hotel()[i]);
-                }
-
-                for (int i = 0; i < get_date_depart().size(); ++i){
-                    solution->v_Date_Depart.push_back(get_date_depart()[i]);
-                }
-
-                for (int i = 0; i < all_poi_sequence.size(); ++i){
-                    
-                    v_i_tmp = vector<int>();
-                    for (int j = 0; j < all_poi_sequence[i].size(); ++j){
-                        v_i_tmp.push_back(all_poi_sequence[i][j]);
-                        
-                    }
-                    solution->v_v_Sequence_Id_Par_Jour.push_back(v_i_tmp);
-                    
-                }
-
-                solution->i_valeur_fonction_objectif = (int)obj;
-
-                bool b = solution->Verification_Solution(this->instance);
-
-                if (b){
-                    //cout << "@ - @ YOU GET IT" << endl;
+                if (valid){
 
                     sequence_Id_Poi_Par_Jour[sequence] = tmp_sequence;
                     current_sequence = tmp_sequence;
@@ -323,8 +290,6 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
 
                 }
 
-
-                delete solution;
 
             }
 
