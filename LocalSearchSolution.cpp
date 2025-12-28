@@ -35,7 +35,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
         float last_distance_poi_hotel_destination = this->instance->get_distance_Hotel_POI(hotel_destination,saved_sequence_day[saved_sequence_day.size()-1]);
         int current_position = hotel_depart;
         int index_best_poi = -1;
-        cout << "$$ -- $$" << endl;
+        //cout << "$$ -- $$" << endl;
         while(iteration < maxIteration){
 
             if (hotel){
@@ -130,7 +130,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
             iteration++;
         }
-        cout << "oo -- oo : " << iteration << " - o - " << maxIteration << endl;
+        //cout << "oo -- oo : " << iteration << " - o - " << maxIteration << endl;
 
         for (int j = 0; j < sequence_jour.size(); ++j){
             int poi_id = sequence_jour[j];
@@ -197,7 +197,7 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
 {
     vector<int> all_hotel = build_list_hotel_for_all_journey();
 
-    cout << "oo -- oo SIZE = " << sequence_Id_Poi_Par_Jour.size() << " - " << this->instance->get_Nombre_Jour() << endl;
+    //cout << "oo -- oo SIZE = " << sequence_Id_Poi_Par_Jour.size() << " - " << this->instance->get_Nombre_Jour() << endl;
 
     for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
 
@@ -353,7 +353,7 @@ void NearestNeighbor::swap()
 
             vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
 
-            cout << "# - # Sequence " << sequence << " : " << endl;
+            
             for (int i = 0; i < current_sequence.size() - 2; ++i){
 
                 float first_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 1]);
@@ -364,10 +364,6 @@ void NearestNeighbor::swap()
                 if (first_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i]) &&
                     second_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i + 2])){
 
-                    
-                    
-
-                    cout << current_sequence[i] << " <--> " << current_sequence[i + 1] << endl;
 
                     vector<vector<int>> tmp_all_sequence = this->sequence_Id_Poi_Par_Jour;
                     vector<int> tmp_sequence = current_sequence;
@@ -380,10 +376,8 @@ void NearestNeighbor::swap()
                     bool b = sequence_is_valid(tmp_all_sequence);
 
                     if (b){
-                        cout << "After Swap : " << tmp_sequence[i] << " <--> " << tmp_sequence[i + 1] << endl;
 
                         if (this->instance->get_POI_Score(current_sequence[i]) <= this->instance->get_POI_Score(current_sequence[i + 1])){
-                            cout << "** -- ** Score : " << this->instance->get_POI_Score(current_sequence[i]) << " - " << this->instance->get_POI_Score(current_sequence[i + 1])<< endl;
                         
                             this->sequence_Id_Poi_Par_Jour = tmp_all_sequence;
 
@@ -396,14 +390,13 @@ void NearestNeighbor::swap()
                         break;
                     }
 
-                    //cout << (b? "OK":"NOT OK") << endl;
 
                 }
 
 
                 
             }
-            cout << endl;
+            
 
         }
     }
@@ -483,14 +476,12 @@ void NearestNeighbor::GRASP()
 
     int iteration = 0;
 
-    cout << " - o - GRASP - o -" << endl;
     while (iteration < MaxIteration){
         add_unvisited_poi_to_the_solution();
         swap();
 
         iteration++;
     }
-    cout << " - o - GRASP - o -" << endl;
 
 }
 
