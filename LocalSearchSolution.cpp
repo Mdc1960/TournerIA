@@ -3,7 +3,7 @@
 
 
 
-/// Heuristique
+/// Heuristique to find a good solution but not the optimal one.
 void NearestNeighbor::heuristic_nearest_neighbor()
 {
     solution_by_building_hotel_first();
@@ -150,6 +150,7 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
 }
 
+// Build hotel for all the journey.
 vector<int> NearestNeighbor::build_list_hotel_for_all_journey()
 {
 
@@ -164,6 +165,7 @@ vector<int> NearestNeighbor::build_list_hotel_for_all_journey()
     return build_all_hotel;
 }
 
+// Determine the objective fonction value for day trip.
 int NearestNeighbor::determine_objective_function_value(vector<int> sequence_poi)
 {
     int sum = 0;
@@ -173,6 +175,7 @@ int NearestNeighbor::determine_objective_function_value(vector<int> sequence_poi
     return sum;
 }
 
+// Order poi depending on the value of poi close time.
 void NearestNeighbor::order_poi_by_fermeture()
 {
     vector<int> list_poi = vector<int>();
@@ -193,6 +196,7 @@ void NearestNeighbor::order_poi_by_fermeture()
 
 }
 
+// Add unvisited poi to the solution.
 void NearestNeighbor::add_unvisited_poi_to_the_solution()
 {
     vector<int> all_hotel = build_list_hotel_for_all_journey();
@@ -297,6 +301,7 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
     }
 }
 
+// 2-OPT
 void NearestNeighbor::two_opt()
 {
     vector<int> all_hotel = build_list_hotel_for_all_journey();
@@ -342,6 +347,7 @@ void NearestNeighbor::two_opt()
     }
 }
 
+// SWAP
 void NearestNeighbor::swap()
 {
     if (sequence_is_valid(sequence_Id_Poi_Par_Jour)){
@@ -402,6 +408,7 @@ void NearestNeighbor::swap()
     }
 }
 
+// Check the validity of a sequence
 bool NearestNeighbor::sequence_is_valid(vector<vector<int>> all_sequence)
 {
 
@@ -443,6 +450,7 @@ bool NearestNeighbor::sequence_is_valid(vector<vector<int>> all_sequence)
     return b;
 }
 
+// Determine the distance for the trip.
 float NearestNeighbor::determine_distance_for_day_journey(int hotel_depart, int hotel_arrive, vector<int> sequence_poi)
 {
 
@@ -466,7 +474,7 @@ float NearestNeighbor::determine_distance_for_day_journey(int hotel_depart, int 
     return distance;
 }
 
-// Improvement of the initial solution
+// Improvement of the solution by using the Metaheuristic GRASP.
 void NearestNeighbor::GRASP()
 {
 
@@ -487,7 +495,7 @@ void NearestNeighbor::GRASP()
 
 
 
-// Works
+// Best poi from a hotel
 int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id_jour)
 {
 
@@ -530,6 +538,7 @@ int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id
     return best_poi_index;
 }
 
+// Best poi from a specific poi
 int NearestNeighbor::best_poi_from_poi(int poi_index, float total_distance, int id_jour)
 {
 
