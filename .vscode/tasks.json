@@ -14,7 +14,7 @@
                 "${workspaceFolder}/Instance.cpp",
                 "${workspaceFolder}/Solution.cpp",
                 "${workspaceFolder}/SolutionInitiale.cpp",
-                "${workspaceFolder}/NearestNeighbor.cpp",
+                "${workspaceFolder}/LocalSearchSolution.cpp",
                 "${workspaceFolder}/Checker.cpp",
                 "-o",
                 "${workspaceFolder}/output/main"

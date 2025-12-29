@@ -9,7 +9,7 @@
 #include "Instance.hpp"
 #include "Solution.hpp"
 #include "SolutionInitiale.hpp"
-#include "NearestNeighbor.hpp"
+#include "LocalSearchSolution.hpp"
 
 
 using namespace std;
