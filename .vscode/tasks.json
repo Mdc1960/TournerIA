@@ -4,13 +4,18 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "/user/bin/clang++",
+            "command": "/usr/bin/clang++",
             "args": [
                 "-std=c++17",
                 "-Wall",
                 "-Wextra",
                 "-g",
-                "${workspaceFolder}/*.cpp",
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/Instance.cpp",
+                "${workspaceFolder}/Solution.cpp",
+                "${workspaceFolder}/SolutionInitiale.cpp",
+                "${workspaceFolder}/LocalSearchSolution.cpp",
+                "${workspaceFolder}/Checker.cpp",
                 "-o",
                 "${workspaceFolder}/output/main"
             ],
