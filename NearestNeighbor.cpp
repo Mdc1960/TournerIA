@@ -1,4 +1,4 @@
-#include "LocalSearchSolution.hpp"
+#include "NearestNeighbor.hpp"
 #include "Solution.hpp"
 
 
