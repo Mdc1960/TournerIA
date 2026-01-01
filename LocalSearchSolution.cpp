@@ -354,18 +354,18 @@ void NearestNeighbor::swap()
         vector<int> all_hotel = build_list_hotel_for_all_journey();
 
         for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
-            int hotel_depart = all_hotel[sequence];
-            int hotel_arrive = all_hotel[sequence+1];
+            
 
             vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
 
             
-            for (int i = 0; i < current_sequence.size() - 2; ++i){
+            for (int i = 0; i < (int)current_sequence.size() - 2; ++i){
 
                 float first_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 1]);
+                cout << "SWAP :: "<< current_sequence[i] << " - " << current_sequence[i + 2] << endl;
                 float second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 2]);
+                cout << second_distance << " - o - SWAP :: " << i+2 << endl; 
                 
-                float third_distance = this->instance->get_distance_POI_POI(current_sequence[i + 1], current_sequence[i + 2]);
 
                 if (first_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i]) &&
                     second_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i + 2])){
