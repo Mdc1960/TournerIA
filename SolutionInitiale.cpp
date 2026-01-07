@@ -275,14 +275,6 @@ void SolutionInitiale::solution_by_building_hotel_first()
         
     }
 
-    
-    for (int i = 0; i < sequence_Id_Poi_Par_Jour.size(); ++i){
-        for (int j = 0; j < sequence_Id_Poi_Par_Jour[i].size(); ++j){
-            int poi_id = sequence_Id_Poi_Par_Jour[i][j];
-            i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_id);
-        }
-    }   
-
 }
 
 // POI between an hotel and the last one.

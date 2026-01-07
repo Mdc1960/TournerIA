@@ -130,22 +130,17 @@ void NearestNeighbor::heuristic_nearest_neighbor()
 
             iteration++;
         }
-        //cout << "oo -- oo : " << iteration << " - o - " << maxIteration << endl;
-
-        for (int j = 0; j < sequence_jour.size(); ++j){
-            int poi_id = sequence_jour[j];
-            i_valeur_fonction_objectif += this->instance->get_POI_Score(poi_id);
-        }
-
         
+
         sequence_jour.push_back(saved_sequence_day[saved_sequence_day.size()-1]);
         sequence_Id_Poi_Par_Jour[id_jour] = sequence_jour;
-
-        
 
 
     }
 
+    for(auto s : sequence_Id_Poi_Par_Jour){
+        i_valeur_fonction_objectif += determine_objective_function_value(s);
+    }
   
 
 }
