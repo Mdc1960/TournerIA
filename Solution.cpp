@@ -111,7 +111,7 @@ bool Solution::Verification_Solution(Instance *instance)
                 f_date=f_date+instance->get_distance_Hotel_POI(v_Id_Hotel_Intermedaire[i], v_v_Sequence_Id_Par_Jour[i][j-1]);
             if((f_date-v_Date_Depart[i])>instance->get_POI_Duree_Max_Voyage(i))
             {
-                cout<< "$Erreur : durée max du jour "<<i<<" dépassée puisqu'elle dure : "<< (f_date-v_Date_Depart[i])<<"." << " - " << instance->get_POI_Duree_Max_Voyage(i) <<endl;
+                cout<< "Erreur : durée max du jour "<<i<<" dépassée puisqu'elle dure : "<< (f_date-v_Date_Depart[i])<<"." << " - " << instance->get_POI_Duree_Max_Voyage(i) <<endl;
                 b_solution_ok=false;
             }
         }
@@ -140,7 +140,7 @@ bool Solution::Verification_Solution(Instance *instance)
             f_date=f_date+instance->get_distance_Hotel_Hotel(i_ID_depart, i_ID_Arrivee);
             if((f_date-v_Date_Depart[i])>instance->get_POI_Duree_Max_Voyage(i))
             {
-                cout<< "#Erreur : durée max du jour "<<i<<" dépassée puisqu'elle dure : "<< (f_date-v_Date_Depart[i])<<"." <<endl;
+                cout<< "Erreur : durée max du jour "<<i<<" dépassée puisqu'elle dure : "<< (f_date-v_Date_Depart[i])<<"." <<endl;
                 b_solution_ok=false;
             }
         }

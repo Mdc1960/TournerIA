@@ -362,10 +362,8 @@ void NearestNeighbor::swap()
             for (int i = 0; i < (int)current_sequence.size() - 2; ++i){
 
                 float first_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 1]);
-                cout << "SWAP :: "<< current_sequence[i] << " - " << current_sequence[i + 2] << endl;
+            
                 float second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[i + 2]);
-                cout << second_distance << " - o - SWAP :: " << i+2 << endl; 
-                
 
                 if (first_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i]) &&
                     second_distance <= this->instance->get_POI_Heure_fermeture(current_sequence[i + 2])){
