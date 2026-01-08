@@ -212,7 +212,6 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
         for (auto poi : visited){
 
             int pos = -1;
-            int best_objective_value = -1;
             float best_ratio = -1.0f;
             
             vector<int> tmp_sequence;
@@ -244,7 +243,7 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
                     
 
 
-                    if (determine_distance_for_day_journey(hotel_depart, hotel_arrive,tmp_sequence) < this->instance->get_POI_Duree_Max_Voyage(sequence)){
+                    if (determine_distance_for_day_journey(hotel_depart, hotel_arrive,tmp_sequence) <= this->instance->get_POI_Duree_Max_Voyage(sequence)){
                         //cout << poi << " - " << current_sequence[index] << " : " << this->instance->get_POI_Score(current_sequence[index])/distance_first_poi << " ( - ) : " << determine_distance_for_day_journey_except_a_poi(hotel_depart, hotel_arrive,tmp_sequence) << " - " << this->instance->get_POI_Duree_Max_Voyage(sequence) << endl;
 
                         if (best_ratio <= this->instance->get_POI_Score(current_sequence[index])/distance_first_poi){
@@ -307,12 +306,9 @@ void NearestNeighbor::two_opt()
         int hotel_arrive = all_hotel[sequence+1];
 
         vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
+        break;
 
-        cout << "@@ -- @@ : " << this->instance->get_distance_POI_POI(0,2) << " - " << this->instance->get_distance_POI_POI(5, 9) << endl;
-
-        cout << "@@ -- @@ : " << this->instance->get_distance_POI_POI(0,5) << " - " << this->instance->get_distance_POI_POI(2, 9) << endl;
-
-        cout << "# - # Sequence " << sequence << " : " << endl;
+        
         for (int i = 1; i < current_sequence.size() - 2; ++i){
             for (int j = i + 1; j < current_sequence.size() - 1; ++j){
 
@@ -320,24 +316,23 @@ void NearestNeighbor::two_opt()
                 float former_second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[j]);
                 float former_third_distance = this->instance->get_distance_POI_POI(current_sequence[j], current_sequence[j + 1]);
 
-                cout << "@ - @ Former distance = " << former_first_distance + former_third_distance << endl;
+                
 
 
                 float new_first_distance = this->instance->get_distance_POI_POI(current_sequence[i - 1], current_sequence[j]);
                 float new_second_distance = this->instance->get_distance_POI_POI(current_sequence[j], current_sequence[i]);
                 float new_third_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[j + 1]);
 
-                cout << "@ - @ New distance = " << new_first_distance + new_third_distance << endl;
+                
 
 
                 float delta_distance = (former_first_distance + former_third_distance) - (new_first_distance + new_third_distance);
 
 
-                //if (delta_distance > 0) continue;
-                cout << "( " << current_sequence[i - 1] << ", " << current_sequence[j] << " )" << " <--> " << "( " << current_sequence[i] << ", " << current_sequence[j + 1] << " )" << endl;
+                
+                
             }
         }
-        cout << endl;
 
     }
 }
@@ -473,20 +468,147 @@ void NearestNeighbor::GRASP()
 
     heuristic_nearest_neighbor();
 
+    int day = this->instance->get_Nombre_Jour();
+
     int MaxIteration = this->instance->get_Nombre_Jour();
+
+    if (day < 5){
+        MaxIteration = 5*day;
+    }
 
     int iteration = 0;
 
-    while (iteration < MaxIteration){
+    // Phase d'intesification
+    /*while (iteration < MaxIteration){
         add_unvisited_poi_to_the_solution();
         swap();
+        
 
         iteration++;
+    }*/
+
+    // Phase de diversification
+
+    
+
+    int it = 0;
+    while (it < MaxIteration){
+
+        while (iteration < MaxIteration){
+            add_unvisited_poi_to_the_solution();
+            swap();
+            
+
+            iteration++;
+        }
+        change_poi_by_unvised_poi();
+        
+        
+        iteration = 0;
+        
+
+        it++;
     }
+    
+
+    
 
 }
 
+void NearestNeighbor::change_poi_by_unvised_poi()
+{
+    vector<int> all_hotel = build_list_hotel_for_all_journey();
 
+    vector<int> optimal_sequence = vector<int>();
+
+    int index_poi_to_change = -1;
+    int updated_poi = -1;
+
+    
+    for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
+
+        int hotel_depart = all_hotel[sequence];
+        int hotel_arrive = all_hotel[sequence+1];
+
+        vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
+
+        vector<int> visited = this->get_unvisited_poi();
+        
+        for (auto poi : visited){
+
+            vector<int> tmp_sequence;
+
+            for (int index = 0; index < current_sequence.size() - 1; ++index){
+
+                tmp_sequence = vector<int>(current_sequence.size(),-1);
+
+                
+                for (int i = 0; i < current_sequence.size(); ++i){
+                    if (i == index){
+                        tmp_sequence[index] = poi;
+                    }else{
+                        tmp_sequence[i] = current_sequence[i];
+                    }
+                }
+                
+
+
+                vector<vector<int>> all_poi_sequence = sequence_Id_Poi_Par_Jour;
+                
+
+                all_poi_sequence[sequence] = tmp_sequence;
+                
+
+                bool valid = sequence_is_valid(all_poi_sequence);
+
+                if (valid){
+                    //cout << "# - # You can change the POI" << endl;
+                    int current_objective_function_value = 0;
+
+                    for (auto s : all_poi_sequence){
+                        current_objective_function_value += determine_objective_function_value(s);
+                    }
+                    //cout << "@ -- @ Current Objective Fonction = " << current_objective_function_value << " - " << i_valeur_fonction_objectif << endl;
+
+                    if (current_objective_function_value > this->i_valeur_fonction_objectif){
+                        optimal_sequence = tmp_sequence;
+                        index_poi_to_change = index;
+                        updated_poi = poi;
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (!optimal_sequence.empty() && index_poi_to_change != -1 && updated_poi != -1){
+
+            
+            if (!this->poi_already_visited(updated_poi)){
+
+            
+
+                poi_visited.erase(remove(poi_visited.begin(), poi_visited.end(), current_sequence[index_poi_to_change]), poi_visited.end());
+                
+                //cout << "## -- ## Optimal POI sequence" << endl;
+                sequence_Id_Poi_Par_Jour[sequence][index_poi_to_change] = updated_poi;
+                add_to_poi_visited(updated_poi);
+                visited.erase(remove(visited.begin(),visited.end(),updated_poi),visited.end());
+
+
+                this->i_valeur_fonction_objectif = 0;
+
+                for (auto s : sequence_Id_Poi_Par_Jour){
+                    this->i_valeur_fonction_objectif += determine_objective_function_value(s);
+                }
+            }
+        }
+        
+
+    }
+    
+}
 
 // Best poi from a hotel
 int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id_jour)
