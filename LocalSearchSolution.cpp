@@ -215,7 +215,7 @@ void NearestNeighbor::add_unvisited_poi_to_the_solution()
             float best_ratio = -1.0f;
             
             vector<int> tmp_sequence;
-            for (int index = 0; index < current_sequence.size() - 1; ++index){
+            for (int index = 0; index < (int)current_sequence.size() - 1; ++index){
 
                 tmp_sequence = vector<int>(current_sequence.size()+1,-1);
 
@@ -306,30 +306,43 @@ void NearestNeighbor::two_opt()
         int hotel_arrive = all_hotel[sequence+1];
 
         vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
-        break;
+        
 
         
-        for (int i = 1; i < current_sequence.size() - 2; ++i){
-            for (int j = i + 1; j < current_sequence.size() - 1; ++j){
-
-                float former_first_distance = this->instance->get_distance_POI_POI(current_sequence[i - 1], current_sequence[i]) ;
-                float former_second_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[j]);
-                float former_third_distance = this->instance->get_distance_POI_POI(current_sequence[j], current_sequence[j + 1]);
+        for (int i = 0; i < (int)current_sequence.size() - 3; ++i){
+            for (int j = i + 2; j < (int)current_sequence.size() - 1; ++j){
 
                 
 
+                vector<vector<int>> tmp_all_sequence = this->sequence_Id_Poi_Par_Jour;
+                vector<int> tmp_sequence = current_sequence; 
 
-                float new_first_distance = this->instance->get_distance_POI_POI(current_sequence[i - 1], current_sequence[j]);
-                float new_second_distance = this->instance->get_distance_POI_POI(current_sequence[j], current_sequence[i]);
-                float new_third_distance = this->instance->get_distance_POI_POI(current_sequence[i], current_sequence[j + 1]);
-
-                
-
-
-                float delta_distance = (former_first_distance + former_third_distance) - (new_first_distance + new_third_distance);
-
+                std::reverse(tmp_sequence.begin() + i + 1, tmp_sequence.begin() + j + 1);
 
                 
+
+                tmp_all_sequence[sequence] = tmp_sequence;
+
+                bool b = sequence_is_valid(tmp_all_sequence);
+
+                
+                if (b){
+                    
+
+                    if (this->instance->get_POI_Score(current_sequence[i]) <= this->instance->get_POI_Score(current_sequence[j])){
+                        
+                        //cout << "## - ## : 2-OPT" << endl;
+                        this->sequence_Id_Poi_Par_Jour = tmp_all_sequence;
+
+                        i_valeur_fonction_objectif = 0;
+                        for(auto s : sequence_Id_Poi_Par_Jour){
+                            i_valeur_fonction_objectif += determine_objective_function_value(s);
+                        }
+                    
+                    }
+                    break;
+                    
+                }
                 
             }
         }
@@ -478,30 +491,24 @@ void NearestNeighbor::GRASP()
 
     int iteration = 0;
 
-    // Phase d'intesification
-    /*while (iteration < MaxIteration){
-        add_unvisited_poi_to_the_solution();
-        swap();
-        
-
-        iteration++;
-    }*/
-
-    // Phase de diversification
-
-    
-
     int it = 0;
     while (it < MaxIteration){
 
+        
         while (iteration < MaxIteration){
+
+            // Phase d'intesification
             add_unvisited_poi_to_the_solution();
             swap();
             
 
             iteration++;
         }
+
+        // Phase de diversification
         change_poi_by_unvised_poi();
+        
+        
         
         
         iteration = 0;
@@ -509,8 +516,18 @@ void NearestNeighbor::GRASP()
 
         it++;
     }
-    
 
+    for(int i = 0; i < 10; ++i){
+        two_opt();
+        add_unvisited_poi_to_the_solution();
+        swap();
+        change_poi_by_unvised_poi();
+    }
+    
+    
+    
+    
+    
     
 
 }
