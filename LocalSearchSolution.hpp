@@ -47,6 +47,11 @@ public:
     */
     ~NearestNeighbor(){}
 
+    /*!
+    * Method used to change a poi in a sequence by anoyher which not viseted yet.
+    */
+    void change_poi_by_unvised_poi();
+
     
 
     ///

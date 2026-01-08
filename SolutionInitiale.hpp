@@ -117,7 +117,7 @@ public:
     * Getter for objective fonction value.
     * @return i_valeur_fonction_objectif : float
     */
-    float get_objective_function_value(){ return (float)i_valeur_fonction_objectif; }
+    int get_objective_function_value(){ return i_valeur_fonction_objectif; }
 
     /*!
     * Getter for all intermadiate hotel list.
