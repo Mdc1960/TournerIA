@@ -105,6 +105,12 @@ int Resolution(Instance * instance)
     NearestNeighbor nearestNeighbor = NearestNeighbor(instance);
 
     nearestNeighbor.GRASP();
+    /*nearestNeighbor.change_poi_by_unvised_poi();
+    nearestNeighbor.add_unvisited_poi_to_the_solution();
+    nearestNeighbor.swap();
+    nearestNeighbor.add_unvisited_poi_to_the_solution();*/
+    
+    
 
     v_i_tmp.clear();
 
