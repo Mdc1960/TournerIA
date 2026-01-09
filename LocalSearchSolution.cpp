@@ -302,9 +302,6 @@ void NearestNeighbor::two_opt()
 
     for(int sequence = 0; sequence < this->sequence_Id_Poi_Par_Jour.size(); ++sequence){
 
-        int hotel_depart = all_hotel[sequence];
-        int hotel_arrive = all_hotel[sequence+1];
-
         vector<int> current_sequence = this->sequence_Id_Poi_Par_Jour[sequence];
         
 
@@ -492,6 +489,9 @@ void NearestNeighbor::GRASP()
     int iteration = 0;
 
     int it = 0;
+
+    int opt_it = 0;
+    
     while (it < MaxIteration){
 
         
@@ -517,12 +517,17 @@ void NearestNeighbor::GRASP()
         it++;
     }
 
-    for(int i = 0; i < 10; ++i){
+    while (opt_it < MaxIteration){
+
         two_opt();
         add_unvisited_poi_to_the_solution();
         swap();
         change_poi_by_unvised_poi();
+        opt_it++;
     }
+    
+    
+    
     
     
     
@@ -626,6 +631,8 @@ void NearestNeighbor::change_poi_by_unvised_poi()
     }
     
 }
+
+
 
 // Best poi from a hotel
 int NearestNeighbor::best_poi_from_hotel(int hotel, float total_distance, int id_jour)
