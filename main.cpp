@@ -108,6 +108,7 @@ int Resolution(Instance * instance)
     
     
     
+    
 
     v_i_tmp.clear();
 
